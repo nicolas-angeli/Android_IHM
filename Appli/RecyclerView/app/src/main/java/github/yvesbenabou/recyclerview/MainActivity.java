@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     void initData() {
         data = new ArrayList<>();
-        data.add("Apple");
+        data.add("Apples");
         data.add("Banana");
         data.add("Peach");
         data.add("Pineapple");
