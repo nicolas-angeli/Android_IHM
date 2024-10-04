@@ -1,0 +1,11 @@
+firestore
+spark
+node
+npm
+firestore emulator
+friendlyeats-android
+localisation -> user input - map sync
+firebase - commentaires
+firebase authentification
+google drive
+interfaces
