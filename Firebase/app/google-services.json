@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "831726769089",
+    "firebase_url": "https://android-ihm-b5328-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "android-ihm-b5328",
+    "storage_bucket": "android-ihm-b5328.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831726769089:android:008a73a86897d993281540",
+        "android_client_info": {
+          "package_name": "github.yvesbenabou.firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3OplR9EzFJMad9z3NpiUmoucCLLuuWAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831726769089:android:5aa7e03b18972b3a281540",
+        "android_client_info": {
+          "package_name": "github.yvesbenabou.recyclerview"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3OplR9EzFJMad9z3NpiUmoucCLLuuWAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
