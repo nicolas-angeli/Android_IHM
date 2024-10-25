@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
   TextView txt;
 
   String TAG = "MainActivity";
-  String fbKey="message";
+  String fbKey="salles";
   Integer count;
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 	some students had issues with the syntax above, they had to explicit the name of the project again
     */
     //final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("https://projet1-38f7d.firebaseio.com"); // explicitly adding the project url avoids hoping for project to be implicitly hosted on server us-central1
-    rootRef.child(fbKey).setValue("Hello from Firebase Web Console.");
+    rootRef.child(fbKey).child("1007").setValue(0);
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
