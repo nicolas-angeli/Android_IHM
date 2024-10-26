@@ -3,5 +3,7 @@ package github.yvesbenabou.firebase;
 public enum Status {
   CLASS,
   OCCUPIED,
-  FREE
+  FREE,
+  TEACHER_OFFICE,
+  LOCK_ROOM
 }
