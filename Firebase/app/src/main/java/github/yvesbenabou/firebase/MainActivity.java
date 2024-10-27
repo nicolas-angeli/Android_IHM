@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import github.yvesbenabou.firebase.libs.*;
@@ -77,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
         public Liste_Salles() {
             List = new HashMap<>();
+        }
+
+        public Collection<Salle> getList() {
+            return List.values();
         }
 
         public Salle getSalle(String num) {
