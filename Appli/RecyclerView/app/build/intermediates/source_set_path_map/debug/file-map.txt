@@ -1,0 +1,12 @@
+github.yvesbenabou.recyclerview.app-appcompat-1.1.0-0 C:\Users\flori\.gradle\caches\transforms-3\119525dc8ea2d8f50703adbb5133ebad\transformed\appcompat-1.1.0\res
+github.yvesbenabou.recyclerview.app-jetified-appcompat-resources-1.1.0-1 C:\Users\flori\.gradle\caches\transforms-3\4429f64555ed9d36388ad4b5b0c32434\transformed\jetified-appcompat-resources-1.1.0\res
+github.yvesbenabou.recyclerview.app-core-1.1.0-2 C:\Users\flori\.gradle\caches\transforms-3\74f0d96b6387e8afac16a455da3402d9\transformed\core-1.1.0\res
+github.yvesbenabou.recyclerview.app-recyclerview-1.1.0-3 C:\Users\flori\.gradle\caches\transforms-3\d55f9b1c6cb2370e24af439e7aff662a\transformed\recyclerview-1.1.0\res
+github.yvesbenabou.recyclerview.app-pngs-4 D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Appli\RecyclerView\app\build\generated\res\pngs\debug
+github.yvesbenabou.recyclerview.app-resValues-5 D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Appli\RecyclerView\app\build\generated\res\resValues\debug
+github.yvesbenabou.recyclerview.app-rs-6 D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Appli\RecyclerView\app\build\generated\res\rs\debug
+github.yvesbenabou.recyclerview.app-mergeDebugResources-7 D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Appli\RecyclerView\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
+github.yvesbenabou.recyclerview.app-mergeDebugResources-8 D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Appli\RecyclerView\app\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+github.yvesbenabou.recyclerview.app-merged_res-9 D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Appli\RecyclerView\app\build\intermediates\merged_res\debug
+github.yvesbenabou.recyclerview.app-debug-10 D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Appli\RecyclerView\app\src\debug\res
+github.yvesbenabou.recyclerview.app-main-11 D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Appli\RecyclerView\app\src\main\res
