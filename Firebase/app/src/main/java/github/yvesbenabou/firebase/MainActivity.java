@@ -1,62 +1,73 @@
 package github.yvesbenabou.firebase;
 
+import android.content.Context;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
-  TextView txt;
+//Flo
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import androidx.appcompat.app.AppCompatActivity;
 
+public class MainActivity extends AppCompatActivity implements Database_Out {
+  private final String floors = "étages";
+  TextView txt;
   String TAG = "MainActivity";
-  String fbKey="salles";
-  Integer count;
+
+  //Flo
+  private ImageView backgroundImage;
+  private int[] imageResources = {
+          R.drawable.school_map,
+          R.drawable.school_map2,
+          R.drawable.school_map,
+          R.drawable.school_map2,
+          R.drawable.school_map
+  };
+  private int currentIndex = 0;
+  private float initialY;
+
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    count = 0;
     FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
 
     txt = (TextView) findViewById(R.id.text);
 
-    /*
-	the result depends on your android configuration:
-	this works up to android 33 and firebase database 19.2.1 (see ../dependencies.gradle)
-    */
-    final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();  // and if you explicit the project name with full URL, you get an exception with forbidden characters!
-    /* 
-	some students had issues with the syntax above, they had to explicit the name of the project again
-    */
-    //final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("https://projet1-38f7d.firebaseio.com"); // explicitly adding the project url avoids hoping for project to be implicitly hosted on server us-central1
-    rootRef.child(fbKey).child("1007").setValue(0);
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
+   /* TakeRoomButton trb = findViewById(R.id.trb);
+    trb.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         // On Click
         // Write data to Firebase Database
-        rootRef.child(fbKey).setValue("Yes! We're sending message " + count.toString() +" from App to Firebase.");
-        count++;
+        trb.take_room("1407");
       }
-    });
+    });*/
+
+    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();  // and if you explicit the project name with full URL, you get an exception with forbidden characters!
 
     // Read data from Firebase Database
-    rootRef.child(fbKey).addValueEventListener(new ValueEventListener() {
-      @Override public void onDataChange(DataSnapshot dataSnapshot) {
-        Log.i(TAG,
-                dataSnapshot.getValue().toString());  //reads back data with key fbKey
-        txt.setText(dataSnapshot.getValue().toString());
+    databaseRef.child(floors).addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot adataSnapshot) {
+       // txt.setText(dataSnapshot.getValue().toString());
       }
       @Override
       public void onCancelled(DatabaseError databaseError) {
@@ -65,5 +76,45 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+
+    //Flo
+    backgroundImage = findViewById(R.id.backgroundImage);
+    Button slideButton = findViewById(R.id.slideButton);
+
+    // Initialiser l'affichage du texte du bouton avec le numéro d'image
+    slideButton.setText(String.valueOf(currentIndex));
+
+    slideButton.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+          case MotionEvent.ACTION_DOWN:
+            initialY = event.getY(); // Enregistre la position initiale du toucher
+            return true;
+          case MotionEvent.ACTION_UP:
+            float finalY = event.getY(); // Position finale du toucher
+            if (initialY - finalY > 100) {
+              // Glissement vers le haut : image suivante
+              currentIndex = (currentIndex + 1) % imageResources.length;
+            } else if (finalY - initialY > 100) {
+              // Glissement vers le bas : image précédente
+              currentIndex = (currentIndex - 1 + imageResources.length) % imageResources.length;
+            }
+            // Mettre à jour l'image et le texte du bouton
+            backgroundImage.setImageResource(imageResources[currentIndex]);
+            slideButton.setText(String.valueOf(currentIndex));
+            return true;
+        }
+        return false;
+      }
+    });
   }
+
+
+  @Override
+  public void update() {
+    //cette fonction sera appelée toutes les 15 mins pour resynchroniser avec ADE
+
+  }
+
 }
