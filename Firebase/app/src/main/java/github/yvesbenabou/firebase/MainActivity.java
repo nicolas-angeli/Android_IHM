@@ -20,9 +20,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-//Flo
+//Flo boutton etage
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import androidx.appcompat.app.AppCompatActivity;
+
+//Flo boutton info
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
   TextView txt;
   String TAG = "MainActivity";
 
-  //Flo
+  //Flo boutton etage
   private ImageView backgroundImage;
   private int[] imageResources = {
           R.drawable.school_map,
@@ -42,8 +50,13 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
           R.drawable.school_map2,
           R.drawable.school_map
   };
-  private int currentIndex = 0;
+
+  private int currentIndex = 1;
   private float initialY;
+
+// Flo boutton info
+  private ImageView infoImage;
+  private Handler handler = new Handler();
 
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
     });
 
 
-    //Flo
+    //Flo boutton etage
     backgroundImage = findViewById(R.id.backgroundImage);
     Button slideButton = findViewById(R.id.slideButton);
 
@@ -108,7 +121,31 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
         return false;
       }
     });
+
+    //Flo boutton info
+    Button helpButton = findViewById(R.id.helpButton);
+    infoImage = findViewById(R.id.infoImage);
+
+    helpButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        // Afficher l'image
+        infoImage.setVisibility(View.VISIBLE);
+
+        // Masquer l'image après 4 secondes (4000 ms)
+        handler.postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            infoImage.setVisibility(View.GONE);
+          }
+        }, 4000);
+      }
+    });
+
+
   }
+
+
 
 
   @Override

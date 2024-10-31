@@ -38,12 +38,36 @@
         android:id="@+id/slideButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:text="0"
+        android:text="1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_margin="16dp"
         android:background="@drawable/button_with_border"
         android:textColor="#000000"
         android:elevation="4dp"/>
+
+    <Button
+        android:id="@+id/helpButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="?"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_with_border"
+        android:textColor="#000000"
+        android:elevation="4dp"/>
+
+    <!-- ImageView pour afficher l'image temporaire d'info-->
+    <ImageView
+        android:id="@+id/infoImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/helpButton"
+        android:layout_marginTop="0dp"
+        android:layout_alignStart="@id/helpButton"
+        android:src="@drawable/dispo_salle"
+        android:visibility="gone" />
 
 </RelativeLayout>
