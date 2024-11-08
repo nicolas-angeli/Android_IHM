@@ -23,7 +23,7 @@ public class map_color extends AppCompatActivity {
         backgroundImage = new ImageView(this);
 
         // Charger l'image de la carte depuis les ressources
-        backgroundImage.setImageResource(R.drawable.school_map); // Remplace par ton ID de carte
+        backgroundImage.setImageResource(R.drawable.school_map1); // Remplace par ton ID de carte
         backgroundImage.setScaleType(ImageView.ScaleType.MATRIX); // Nécessaire pour les transformations de zoom
 
         // Ajouter l'image de fond au FrameLayout

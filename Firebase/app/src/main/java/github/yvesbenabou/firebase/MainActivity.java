@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 //Flo boutton etage
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -36,6 +37,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
+// Flo images svg zoom (reste déjà import)
+import android.view.ScaleGestureDetector;
+
+
 public class MainActivity extends AppCompatActivity implements Database_Out {
   private final String floors = "étages";
   TextView txt;
@@ -44,19 +49,23 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
   //Flo boutton etage
   private ImageView backgroundImage;
   private int[] imageResources = {
-          R.drawable.school_map,
+          R.drawable.school_map0,
+          R.drawable.school_map1,
           R.drawable.school_map2,
-          R.drawable.school_map,
-          R.drawable.school_map2,
-          R.drawable.school_map
+          R.drawable.school_map3,
+          R.drawable.school_map4
   };
 
   private int currentIndex = 1;
   private float initialY;
 
-// Flo boutton info
+// Flo bouton info
   private ImageView infoImage;
   private Handler handler = new Handler();
+
+// Flo images svg zoom
+  private ScaleGestureDetector scaleGestureDetector;
+  private float scaleFactor = 1.0f;  // Facteur de zoom initial
 
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +152,35 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
     });
 
 
+    // Flo images svg zoom
+    backgroundImage = findViewById(R.id.backgroundImage);
+    backgroundImage.setImageResource(R.drawable.school_map1); // Assurez-vous que c'est un VectorDrawable
+
+    // Initialisation du ScaleGestureDetector
+    scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
+    // Appliquer un OnTouchListener pour détecter le zoom
+    backgroundImage.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        scaleGestureDetector.onTouchEvent(event);  // Passe les événements au ScaleGestureDetector
+        return true;
+      }
+    });
+
+  }
+
+  // Classe interne pour gérer les événements de zoom
+  // Sert pour le ScaleListener du zoom
+  private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+      scaleFactor *= detector.getScaleFactor();  // Augmenter ou réduire le facteur de zoom en fonction du geste
+      scaleFactor = Math.max(0.5f, Math.min(scaleFactor, 3.0f));  // Limite le zoom entre 0.5x et 3x
+      backgroundImage.setScaleX(scaleFactor);  // Applique le zoom en X
+      backgroundImage.setScaleY(scaleFactor);  // Applique le zoom en Y
+      return true;
+    }
   }
 
 
