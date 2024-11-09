@@ -14,8 +14,13 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
+
+                            <entry key="outputName" value="school_map4" />
+                            <entry key="sourceFile" value="D:\_ESIEE\E4\Cours\4E-LE1_IHM\Android_IHM\Firebase\app\src\main\res\drawable\school_map4.svg" />
+
                             <entry key="outputName" value="esiee_map" />
                             <entry key="sourceFile" value="D:\Android_IHM\Android_IHM\Firebase\app\src\main\res\drawable\esiee_map.svg" />
+
                           </map>
                         </option>
                       </PersistentState>

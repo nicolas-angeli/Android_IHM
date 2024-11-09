@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "github.yvesbenabou.recyclerview.app-merged_res-9:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "github.yvesbenabou.recyclerview.app-main-11:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "github.yvesbenabou.recyclerview.app-merged_res-9:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "github.yvesbenabou.recyclerview.app-main-11:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "github.yvesbenabou.recyclerview.app-merged_res-9:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "github.yvesbenabou.recyclerview.app-main-11:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "github.yvesbenabou.recyclerview.app-merged_res-9:/layout_rv_list_item.xml.flat",
+        "source": "github.yvesbenabou.recyclerview.app-main-11:/layout/rv_list_item.xml"
+    },
+    {
+        "merged": "github.yvesbenabou.recyclerview.app-merged_res-9:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "github.yvesbenabou.recyclerview.app-main-11:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "github.yvesbenabou.recyclerview.app-merged_res-9:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "github.yvesbenabou.recyclerview.app-main-11:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "github.yvesbenabou.recyclerview.app-merged_res-9:/layout_activity_main.xml.flat",
+        "source": "github.yvesbenabou.recyclerview.app-main-11:/layout/activity_main.xml"
+    }
+]
