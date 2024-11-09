@@ -17,6 +17,58 @@
         android:id="@+id/doorbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/school_map2" />
+
+    <!-- ImageView pour afficher l'image de fond -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/school_map1" /> <!-- Image par défaut -->
+
+    <!-- Button pour changer l'image en slide et afficher le numéro de l'image -->
+    <Button
+        android:id="@+id/slideButton"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:text="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_with_border"
+        android:textColor="#000000"
+        android:elevation="4dp"/>
+
+    <Button
+        android:id="@+id/helpButton"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:text="?"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_with_border"
+        android:textColor="#000000"
+        android:elevation="4dp"/>
+
+    <!-- ImageView pour afficher l'image temporaire d'info-->
+    <ImageView
+        android:id="@+id/infoImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/helpButton"
+        android:layout_marginTop="0dp"
+        android:layout_alignStart="@id/helpButton"
+        android:src="@drawable/dispo_salle"
+        android:visibility="gone" />
+=======
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="16dp"
