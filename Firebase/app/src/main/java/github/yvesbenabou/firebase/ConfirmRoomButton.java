@@ -5,26 +5,37 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public final class TakeRoomButton extends FloatingActionButton implements Database_In {
+public final class ConfirmRoomButton extends FloatingActionButton implements Database_Input {
   private final String floors = "étages";
+  private DoorButton mDoorButton;
+  public static int green;
+  public static int red;
 
-  public TakeRoomButton(@NonNull Context context) {
+  public ConfirmRoomButton(@NonNull Context context) {
     super(context);
   }
 
-  public TakeRoomButton(@NonNull Context context, @Nullable AttributeSet attrs) {
+  public ConfirmRoomButton(@NonNull Context context, @Nullable AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public TakeRoomButton(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+  public ConfirmRoomButton(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
+  }
+
+  public void setup(DoorButton button) {
+    this.mDoorButton = button;
+    green = getColorNormal();
+    red = getColorDisabled();
+  }
+
+  public void hide() {
+    this.mDoorButton.hide();
   }
 
   @Override
