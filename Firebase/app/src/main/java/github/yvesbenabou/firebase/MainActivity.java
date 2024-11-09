@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -19,7 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 
 //Flo boutton etage
 import android.os.Bundle;
@@ -39,7 +39,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 // Flo images svg zoom (reste déjà import)
 import android.view.ScaleGestureDetector;
-
 
 public class MainActivity extends AppCompatActivity implements Database_Out {
   private final String floors = "étages";
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
   private ScaleGestureDetector scaleGestureDetector;
   private float scaleFactor = 1.0f;  // Facteur de zoom initial
 
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -81,15 +79,55 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
         // On Click
         // Write data to Firebase Database
         trb.take_room("1407");
+
+    //txt = (TextView) findViewById(R.id.text);
+
+    DoorButton db = findViewById(R.id.doorbutton);
+    db.setup((ImageView)findViewById(R.id.takeroombubble),
+            findViewById(R.id.confirmroombutton),
+            findViewById(R.id.cancelbutton),
+            findViewById(R.id.modifybutton));
+    db.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        // On Click
+        // Write data to Firebase Database
+        db.show();
+      }
+    });
+
+    ConfirmRoomButton crb = findViewById(R.id.confirmroombutton);
+    crb.setup(db);  // setup the confirm button so that it can call the hide function of the DoorButton when clicked
+    crb.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        // On Click
+        // Write data to Firebase Database
+        crb.take_room("2205");
+        crb.setColorNormal(crb.red);
+        crb.setColorRipple(crb.red);
+        crb.hide();
+
       }
     });*/
 
     final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();  // and if you explicit the project name with full URL, you get an exception with forbidden characters!
 
+    CancelButton cb = findViewById(R.id.cancelbutton);
+    cb.setup(db);  // setup the cancel button so that it can call the hide function of the DoorButton when clicked
+    cb.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        // On Click
+        cb.hide();
+      }
+    });
+
+    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();  // and if you explicit the project name with full URL, you get an exception with forbidden characters!
+
     // Read data from Firebase Database
     databaseRef.child(floors).addValueEventListener(new ValueEventListener() {
-      @Override public void onDataChange(DataSnapshot adataSnapshot) {
-       // txt.setText(dataSnapshot.getValue().toString());
+
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        //txt.setText(dataSnapshot.getValue().toString());
+
       }
       @Override
       public void onCancelled(DatabaseError databaseError) {
@@ -182,9 +220,6 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       return true;
     }
   }
-
-
-
 
   @Override
   public void update() {

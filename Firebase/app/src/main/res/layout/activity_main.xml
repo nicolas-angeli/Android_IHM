@@ -9,6 +9,5 @@
     tools:context="github.yvesbenabou.firebase.MainActivity">
 
     <include layout="@layout/content_main"/>
-
-
+    
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
