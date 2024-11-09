@@ -103,7 +103,8 @@
         app:fab_colorDisabled="#E90808"
         app:fab_colorNormal="#0ECE0E"
         app:fab_colorPressed="#0ECE0E"
-        app:fab_colorRipple="#0ECE0E"/>
+        app:fab_colorRipple="#0ECE0E"
+        tools:visibility="visible"/>
 
     <github.yvesbenabou.firebase.CancelButton
         android:id="@+id/cancelbutton"
@@ -112,7 +113,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="235dp"
-        android:layout_marginBottom="153dp"
+        android:layout_marginBottom="149dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:src="@drawable/cancel"
@@ -120,7 +121,8 @@
         app:fab_showShadow="false"
         app:fab_colorNormal="@android:color/transparent"
         app:fab_colorRipple="@android:color/transparent"
-        app:fab_colorPressed="@android:color/transparent"/>
+        app:fab_colorPressed="@android:color/transparent"
+        tools:visibility="visible"/>
 
     <github.yvesbenabou.firebase.ModifyButton
         android:id="@+id/modifybutton"
@@ -136,6 +138,7 @@
         app:fab_colorDisabled="@null"
         app:fab_colorNormal="@android:color/transparent"
         app:fab_colorPressed="@android:color/transparent"
-        app:fab_colorRipple="@android:color/transparent"/>
+        app:fab_colorRipple="@android:color/transparent"
+        tools:visibility="visible"/>
 
 </RelativeLayout>
