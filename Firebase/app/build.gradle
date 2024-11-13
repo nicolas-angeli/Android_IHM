@@ -33,6 +33,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVer"
 
     implementation 'com.github.clans:fab:1.6.4'
+    implementation 'net.sf.biweekly:biweekly:0.6.6'
 }
 
 // Add to the bottom of the file
