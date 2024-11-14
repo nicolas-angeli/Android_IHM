@@ -1,16 +1,17 @@
 package github.yvesbenabou.firebase;
+import android.util.Log;
 import github.yvesbenabou.firebase.libs.*;
 
 public class getAdeDatas extends MainActivity{
+    String pageSource;
+
     public MainActivity.Liste_Salles getAdeData(String time) {
+
         /*
         TODO : time format
         time = "JJMMAAAA,hh:mm"
          */
-        // Faire une requête sur ADE our récupérer les données des salles
         MainActivity.Liste_Salles adeDatas = new MainActivity.Liste_Salles();
-
-
 
         // Exemple d'utilisation de la méthode
         String url = "https://planif.esiee.fr/direct/"; // Remplacez par l'URL réelle
@@ -20,7 +21,19 @@ public class getAdeDatas extends MainActivity{
 
 
         // Récupérer le code source de la page
-        String pageSource = WebPageSourceFetcher.fetchHtmlSource(url, username, password, year);
+        WebPageSourceFetcherWebView webViewFetcher = new WebPageSourceFetcherWebView();
+        webViewFetcher.setHtmlFetchListener(new WebPageSourceFetcherWebView.HtmlFetchListener() {
+            @Override
+            public void onHtmlFetched(String html) {
+                // html contient le code source de la page
+                // Log.d("HTML Content", html);
+                pageSource = html;
+            }
+        });
+
+        //Traitement des données html :
+
+        adeDatas = parseHtmlDatas.parsing(pageSource, time);
 
         // Afficher le code source
         System.out.println("Code source de la page :");

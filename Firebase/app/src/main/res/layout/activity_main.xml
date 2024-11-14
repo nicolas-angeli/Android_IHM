@@ -17,5 +17,21 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_dialog_email"/>
-    
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="568dp"
+        android:visibility="invisible"
+        app:layout_anchor="@+id/relativeLayout"
+        app:layout_anchorGravity="center" />
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
