@@ -16,6 +16,7 @@ import biweekly.Biweekly;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
 import github.yvesbenabou.firebase.MainActivity;
+import java.util.Calendar;
 
 
 public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
@@ -38,7 +39,7 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
     // Fonction statique pour mettre à jour l'état de chaque salle en fonction d'une date et d'une URL
     public static void updateRoomStates() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date = new Date();
+        Date date = Calendar.getInstance().getTime();
 
         String urlStr = "https://planif.esiee.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=&projectId=12&calType=ical&nbWeeks=4";
 
@@ -72,7 +73,7 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
                             if (location.equals(numSalle)) {
                                 // Mettre à jour l'état de la salle avec le résumé de l'événement
                                 rooms.getSalle(numSalle).setState("Occupée : " + event.getSummary().getValue());
-                                //Log.d(TAG, "Salle : " + salle.getNum() + " - État : " + salle.getState());
+                                Log.d(TAG, "Salle : " + numSalle + " - État : " + rooms.getSalle(numSalle).getState());
                             }
                         }
                     }
