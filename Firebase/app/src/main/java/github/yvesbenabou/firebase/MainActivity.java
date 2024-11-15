@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
         public void setSalle(Salle newSalle) {
             List.put(newSalle.getNum(), newSalle);
         }
-    }
+
+        public Collection<String> getSallesSet() {
+            return List.keySet();
+        }
 
 }

@@ -35,6 +35,8 @@ dependencies {
     testImplementation "junit:junit:$junitVer"
     androidTestImplementation "androidx.test:runner:$androidTestRunnerVer"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVer"
+
+    implementation 'net.sf.biweekly:biweekly:0.6.6'
 }
 
 // Add to the bottom of the file
