@@ -241,7 +241,9 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       }
     });
 
-    /*salleInput.addTextChangedListener(new TextWatcher() {
+    salleInput.addTextChangedListener(new TextWatcher() {
+      private boolean isUpdating = false;
+
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         // Rien à faire ici
@@ -249,28 +251,41 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
 
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // Vérifier une salle valide a été entrée
-        String salle = s.toString();
-        StringBuilder salle_sans_espaces = new StringBuilder();
+        if (isUpdating) return; // Empêche les boucles infinies
 
-        // Iterate through each character of the string
-        for (char c : salle.toCharArray()) {
-          // Append the character to the StringBuilder if it's not a space
-          if (c != ' ') {
-            salle_sans_espaces.append(c);
-          }
+        // Supprime les espaces et vérifie si la chaîne est valide
+        String salle = s.toString().trim().replace(" ", "");
+
+        if (salle.isEmpty()) {
+          Log.d("Firebase", "Chaîne vide, aucune vérification effectuée.");
+          return; // Pas de vérification si l'entrée est vide
         }
-        salle = salle_sans_espaces.toString();
-        databaseRef.child(floors).child("" + salle.charAt(1)).child(salle).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        // Vérifie que la chaîne est suffisamment longue
+        if (salle.length() < 4) {
+          Log.d("Firebase", "Nom de salle trop court.");
+          return; // La salle doit être au moins de 4 caractères (comme 1003)
+        }
+
+        // Extraire l'étage à partir du premier caractère
+        String etage = "0"; // Étages comme dans votre exemple
+        String salleComplete = salle;
+
+        // Référence Firebase
+        DatabaseReference salleRef = databaseRef.child("étages").child(etage).child(salleComplete);
+
+        // Ajout du Listener
+        salleRef.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
-              // La salle est réservable
-              db.salleFound();
-              db.setRoom(salle_sans_espaces.toString());
+              // Salle trouvée
+              Log.d("Firebase", "Salle " + salleComplete + " trouvée dans l'étage " + etage);
+              db.salleFound(); // Appel d'une méthode personnalisée
             } else {
-              // La salle n'existe pas/n'est pas réservable
-              db.notFound();
+              // Salle non trouvée
+              Log.d("Firebase", "Salle " + salleComplete + " introuvable dans l'étage " + etage);
+              db.notFound(); // Appel d'une méthode personnalisée
             }
           }
 
@@ -285,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       public void afterTextChanged(Editable s) {
         // Rien à faire ici
       }
-    });*/
+    });
   }
 
   // Classe interne pour gérer les événements de zoom
