@@ -60,6 +60,8 @@ public final class DoorButton extends FloatingActionButton {
     this.cancelButton.setVisibility(View.GONE);
     this.selectedTimeTextView.setVisibility(View.GONE);
     this.roomText.setVisibility(View.GONE);
+    this.roomText.setHint("Entrez votre n° de salle");
+    this.roomText.setText("");
   }
 
   // Fonction appelée lorsque le texte correspond bien à une salle

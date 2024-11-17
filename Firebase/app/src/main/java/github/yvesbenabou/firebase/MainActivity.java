@@ -1,5 +1,6 @@
 package github.yvesbenabou.firebase;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -127,8 +129,6 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       @Override
       public void onClick(View view) {
         // On Click
-        // Write data to Firebase Database
-        crb.take_room(crb.getRoom());
         cb.hide();
       }
     });
@@ -190,14 +190,6 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       public void onClick(View v) {
         // Afficher l'image
         infoImage.setVisibility(View.VISIBLE);
-
-        // Masquer l'image après 4 secondes (4000 ms)
-        handler.postDelayed(new Runnable() {
-          @Override
-          public void run() {
-            infoImage.setVisibility(View.GONE);
-          }
-        }, 4000);
       }
     });
 
@@ -302,6 +294,60 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       @Override
       public void afterTextChanged(Editable s) {
         // Rien à faire ici
+      }
+    });
+
+    ImageView backgroundImage = findViewById(R.id.backgroundImage);
+    ImageView takeroombubble = findViewById(R.id.takeroombubble);
+
+    backgroundImage.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View view, MotionEvent event) {
+        boolean info = (infoImage.getVisibility() == View.VISIBLE);
+        boolean reservation = (takeroombubble.getVisibility() == View.VISIBLE);
+        if (info || reservation) {
+          // Log pour voir si l'événement tactile est détecté
+          Log.d("TouchEvent", "Touch event detected");
+
+          if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.d("TouchEvent", "Action down detected");
+
+            // Coordonnées du touch
+            float touchX = event.getX();
+            float touchY = event.getY();
+            Log.d("TouchEvent", "Touch coordinates: " + touchX + ", " + touchY);
+
+            // Récupérer les dimensions et position de l'ImageView
+            int[] infoCoords = new int[2];
+            infoImage.getLocationInWindow(infoCoords);
+
+            int imageLeft = infoCoords[0];
+            int imageTop = infoCoords[1];
+            int imageRight = imageLeft + infoImage.getWidth();
+            int imageBottom = imageTop + infoImage.getHeight();
+
+            Log.d("TouchEvent", "Image bounds: " + imageLeft + ", " + imageTop + ", " + imageRight + ", " + imageBottom);
+
+            // Vérifier si le touch est en dehors
+            if (touchX < imageLeft || touchX > imageRight ||
+                    touchY < imageTop || touchY > imageBottom) {
+              infoImage.setVisibility(View.GONE);
+            }
+
+            takeroombubble.getLocationInWindow(infoCoords);
+
+            imageLeft = infoCoords[0];
+            imageTop = infoCoords[1];
+            imageRight = imageLeft + takeroombubble.getWidth();
+            imageBottom = imageTop + takeroombubble.getHeight();
+
+            if (touchX < imageLeft || touchX > imageRight ||
+                    touchY < imageTop || touchY > imageBottom) {
+              cb.hide();
+            }
+          }
+        }
+        return true;
       }
     });
   }
