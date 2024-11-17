@@ -9,9 +9,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,10 +46,22 @@ import android.view.ScaleGestureDetector;
 import java.util.Calendar;
 import java.util.Date;
 
+//Nico horloge
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.Calendar;
+import android.text.TextWatcher;
+
 public class MainActivity extends AppCompatActivity implements Database_Out {
   private final String floors = "étages";
-  TextView txt;
+  private TextView selectedTimeTextView;
   String TAG = "MainActivity";
+  String room = "";
 
   //Flo boutton etage
   private ImageView backgroundImage;
@@ -81,7 +95,9 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
     db.setup((ImageView) findViewById(R.id.takeroombubble),
             findViewById(R.id.confirmroombutton),
             findViewById(R.id.cancelbutton),
-            findViewById(R.id.modifybutton));
+            findViewById(R.id.modifybutton),
+            findViewById(R.id.selected_time_textview),
+            findViewById(R.id.salle_input));
     db.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -98,9 +114,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       public void onClick(View view) {
         // On Click
         // Write data to Firebase Database
-        crb.take_room("2205");
-        crb.setColorNormal(crb.red);
-        crb.setColorRipple(crb.red);
+        crb.take_room(db.getRoom());
         crb.hide();
       }
     });
@@ -207,6 +221,71 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
 
     // Lancer le fetcher de calendrier
     new CalendarFetcher(targetDate).execute();
+
+    ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
+    selectedTimeTextView = findViewById(R.id.selected_time_textview);
+
+    // Définir un listener pour ouvrir le TimePickerDialog
+    modifyTimeButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        showTimePickerDialog();
+      }
+    });
+
+    EditText salleInput = findViewById(R.id.salle_input);
+    salleInput.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        salleInput.setVisibility(View.VISIBLE);
+      }
+    });
+
+    /*salleInput.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // Rien à faire ici
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        // Vérifier une salle valide a été entrée
+        String salle = s.toString();
+        StringBuilder salle_sans_espaces = new StringBuilder();
+
+        // Iterate through each character of the string
+        for (char c : salle.toCharArray()) {
+          // Append the character to the StringBuilder if it's not a space
+          if (c != ' ') {
+            salle_sans_espaces.append(c);
+          }
+        }
+        salle = salle_sans_espaces.toString();
+        databaseRef.child(floors).child("" + salle.charAt(1)).child(salle).addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            if (dataSnapshot.exists()) {
+              // La salle est réservable
+              db.salleFound();
+              db.setRoom(salle_sans_espaces.toString());
+            } else {
+              // La salle n'existe pas/n'est pas réservable
+              db.notFound();
+            }
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+            Log.e("Firebase", "Erreur : " + databaseError.getMessage());
+          }
+        });
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        // Rien à faire ici
+      }
+    });*/
   }
 
   // Classe interne pour gérer les événements de zoom
@@ -227,4 +306,27 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
      //cette fonction sera appelée toutes les 15 mins pour resynchroniser avec ADE
 
    }
+
+  private void showTimePickerDialog() {
+    // Obtenez l'heure actuelle pour l'initialiser dans le TimePicker
+    Calendar calendar = Calendar.getInstance();
+    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+    int minute = calendar.get(Calendar.MINUTE);
+
+    // Créez et affichez le TimePickerDialog
+    TimePickerDialog timePickerDialog = new TimePickerDialog(
+            MainActivity.this,
+            new TimePickerDialog.OnTimeSetListener() {
+              @Override
+              public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                // Récupérez l'heure sélectionnée et l'affichez
+                String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
+                selectedTimeTextView.setText(selectedTime);
+              }
+            },
+            hour, minute, true  // Le dernier paramètre `true` signifie un format 24h
+    );
+
+    timePickerDialog.show();
+  }
 }
