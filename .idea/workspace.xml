@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04341e81-18af-4dd4-9d01-c23176842e3d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/assetWizardSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/github/yvesbenabou/firebase/DoorButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="78474084-5134-4a3c-9298-7bbc1918f2d0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/github/yvesbenabou/firebase/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/github/yvesbenabou/firebase/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/github/yvesbenabou/firebase/TakeRoomButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/github/yvesbenabou/firebase/ConfirmTakeRoomButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/content_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/content_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Firebase/.idea/deploymentTargetSelector.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Firebase/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Firebase/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +18,7 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -39,9 +33,9 @@
   }
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
+  &quot;associatedIndex&quot;: 8
 }</component>
-  <component name="ProjectId" id="2nvt0JnJfYdJd74GAbrs93Ucxne" />
+  <component name="ProjectId" id="2oZMNAQsljNLiJbAoNZ2WaiQCNw" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -51,22 +45,21 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "android.gradle.sync.needed": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "map",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Android_IHM/Android_IHM/Firebase"
+    "last_opened_file_path": "D:/Android_IHM/test/Android_IHM/Firebase"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="04341e81-18af-4dd4-9d01-c23176842e3d" name="Changes" comment="" />
-      <created>1729865153131</created>
+      <changelist id="78474084-5134-4a3c-9298-7bbc1918f2d0" name="Changes" comment="" />
+      <created>1731072601321</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1729865153131</updated>
+      <updated>1731072601321</updated>
     </task>
     <servers />
   </component>

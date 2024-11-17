@@ -25,13 +25,4 @@
 
     </RelativeLayout>
 
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="568dp"
-        android:visibility="invisible"
-        app:layout_anchor="@+id/relativeLayout"
-        app:layout_anchorGravity="center" />
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

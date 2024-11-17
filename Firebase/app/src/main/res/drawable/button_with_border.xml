@@ -1,0 +1,16 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#0000FF"/> <!-- Couleur de bordure : bleu -->
+            <corners android:radius="30dp"/> <!-- Rayon des coins pour garder la forme ronde -->
+        </shape>
+    </item>
+    <!-- Couche intérieure blanche -->
+    <item android:left="3dp" android:right="3dp" android:top="3dp" android:bottom="3dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF"/> <!-- Couleur intérieure : blanche -->
+            <corners android:radius="27dp"/> <!-- Rayon des coins légèrement plus petit -->
+        </shape>
+    </item>
+</layer-list>
