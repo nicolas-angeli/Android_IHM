@@ -19,7 +19,6 @@ public final class DoorButton extends FloatingActionButton {
   private CancelButton cancelButton;
   private TextView selectedTimeTextView;
   private EditText roomText;
-  private String room = "";
 
   public DoorButton(@NonNull Context context) {
     super(context);
@@ -75,13 +74,5 @@ public final class DoorButton extends FloatingActionButton {
     this.crb.setColorNormal(this.crb.red);
     this.crb.setColorRipple(this.crb.red);
     this.crb.setClickable(false);
-  }
-
-  public void setRoom(String room) {
-    this.room = room;
-  }
-
-  public String getRoom() {
-    return this.room;
   }
 }

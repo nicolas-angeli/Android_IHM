@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       public void onClick(View view) {
         // On Click
         // Write data to Firebase Database
-        crb.take_room(db.getRoom());
+        crb.take_room(crb.getRoom());
         crb.hide();
       }
     });
@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       @Override
       public void onClick(View view) {
         // On Click
+        // Write data to Firebase Database
+        crb.take_room(crb.getRoom());
         cb.hide();
       }
     });
@@ -282,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
               // Salle trouvée
               Log.d("Firebase", "Salle " + salleComplete + " trouvée dans l'étage " + etage);
               db.salleFound(); // Appel d'une méthode personnalisée
+              crb.setRoom(salleComplete);
             } else {
               // Salle non trouvée
               Log.d("Firebase", "Salle " + salleComplete + " introuvable dans l'étage " + etage);
