@@ -1,22 +1,14 @@
 package github.yvesbenabou.firebase;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.text.Editable;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,20 +18,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 //Flo boutton etage
-import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 
 //Flo boutton info
-import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 
 // Flo images svg zoom (reste déjà import)
 import android.view.ScaleGestureDetector;
@@ -47,20 +30,20 @@ import android.view.ScaleGestureDetector;
 //Nico synchro de la base de données avec ADE
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 //Nico horloge
 import android.app.TimePickerDialog;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import androidx.appcompat.app.AppCompatActivity;
-import java.util.Calendar;
+
+import java.util.HashMap;
 import java.util.TimeZone;
 
 import android.text.TextWatcher;
+
+import github.yvesbenabou.firebase.libs.CalendarFetcher;
+import github.yvesbenabou.firebase.libs.Salle;
 
 public class MainActivity extends AppCompatActivity implements Database_Out {
   private final String floors = "étages";
@@ -398,7 +381,37 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
             },
             hour, minute, true  // Le dernier paramètre `true` signifie un format 24h
     );
-
     timePickerDialog.show();
+  }
+
+  public static class Liste_Salles {
+
+    HashMap<String, Salle> List;
+
+    public Liste_Salles() {
+      List = new HashMap<>();
+    }
+
+    public Collection<Salle> getList() {
+      return List.values();
+    }
+
+    public Salle getSalle(String num) {
+      return List.get(num);
+    }
+    public void setSalle(Salle newSalle) {
+      List.put(newSalle.getNum(), newSalle);
+    }
+
+    public Collection<String> getSallesSet() {
+      return List.keySet();
+    }
+
+    public boolean containsSalle(String numSalle) {
+      for (Salle salle : this.getList()) {
+        if (salle.getNum().equals(numSalle)) return true;
+      }
+      return false;
+    }
   }
 }
