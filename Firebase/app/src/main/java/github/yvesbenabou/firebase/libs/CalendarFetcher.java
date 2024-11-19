@@ -19,6 +19,7 @@ import github.yvesbenabou.firebase.MainActivity;
 import java.util.Calendar;
 
 
+
 public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = "CalendarFetcher";
@@ -69,7 +70,7 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
                     String location = event.getLocation().getValue();
 
                     if (!rooms.containsSalle(location))
-                        rooms.setSalle(new Salle(location, "Libre", new int[] {0, 0}));//libre par défaut
+                        rooms.setSalle(new Salle(location, 0, new int[] {0, 0}));//libre par défaut
 
                     // Vérifie si la date cible est entre le début et la fin de l'événement
                     if (!date.before(start) && !date.after(end)) {
@@ -77,7 +78,7 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
                             // Vérifiez si l'événement correspond à la salle dans la HashMap
                             if (location.equals(numSalle)) {
                                 // Mettre à jour l'état de la salle avec le résumé de l'événement
-                                rooms.getSalle(numSalle).setState("Occupée");
+                                rooms.getSalle(numSalle).setState(1);
                                 Log.d(TAG, "Salle : " + numSalle + " - État : " + rooms.getSalle(numSalle).getState());
                             }
                         }
@@ -85,6 +86,8 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
                 }
                 //Ici rooms contient la liste des salles (Occupées et libres)
                 // TODO fonction pour MAJ la bdd
+
+                new PushListInDatabase(rooms);
 
                 // Essai n°2 : parcourir les salles et vérifier si il y a un event
 //                Log.d(TAG, "TEST");

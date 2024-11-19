@@ -2,11 +2,11 @@ package github.yvesbenabou.firebase.libs;
 
 public class Salle {
     private  String num;   // Numéro de la salle
-    private String state; // État de la salle
+    private int state; // État de la salle
     private int[] pos;    // Position de la salle, par exemple (x, y)
 
     // Constructeur
-    public Salle(String num, String state, int[] pos) {
+    public Salle(String num, int state, int[] pos) {
         this.num = num;
         this.state = state;
         this.pos = pos;
@@ -21,11 +21,11 @@ public class Salle {
         this.num = num;
     }
 
-    public String getState() {
+    public int getState() {
         return this.state;
     }
 
-    public void setState(String state) {
+    public void setState(int state) {
         this.state = state;
     }
 
