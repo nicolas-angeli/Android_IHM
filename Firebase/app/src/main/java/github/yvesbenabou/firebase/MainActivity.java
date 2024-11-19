@@ -45,6 +45,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.ScaleGestureDetector;
 
 //Nico synchro de la base de données avec ADE
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -57,11 +58,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Calendar;
+import java.util.TimeZone;
+
 import android.text.TextWatcher;
 
 public class MainActivity extends AppCompatActivity implements Database_Out {
   private final String floors = "étages";
   private TextView selectedTimeTextView;
+  private DoorButton db;
   String TAG = "MainActivity";
   String room = "";
 
@@ -93,24 +97,24 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
 
     //txt = (TextView) findViewById(R.id.text);
 
-    DoorButton db = findViewById(R.id.doorbutton);
-    db.setup((ImageView) findViewById(R.id.takeroombubble),
+    this.db = findViewById(R.id.doorbutton);
+    this.db.setup((ImageView) findViewById(R.id.takeroombubble),
             findViewById(R.id.confirmroombutton),
             findViewById(R.id.cancelbutton),
             findViewById(R.id.modifybutton),
             findViewById(R.id.selected_time_textview),
             findViewById(R.id.salle_input));
-    db.setOnClickListener(new View.OnClickListener() {
+    this.db.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         // On Click
         // Write data to Firebase Database
-        db.show();
+        MainActivity.this.db.show();
       }
     });
 
     ConfirmRoomButton crb = findViewById(R.id.confirmroombutton);
-    crb.setup(db);  // setup the confirm button so that it can call the hide function of the DoorButton when clicked
+    crb.setup(this.db);  // setup the confirm button so that it can call the hide function of the DoorButton when clicked
     crb.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -275,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
             if (dataSnapshot.exists()) {
               // Salle trouvée
               Log.d("Firebase", "Salle " + salleComplete + " trouvée dans l'étage " + etage);
-              db.salleFound(); // Appel d'une méthode personnalisée
+              MainActivity.this.db.salleFound(); // Appel d'une méthode personnalisée
               crb.setRoom(salleComplete);
             } else {
               // Salle non trouvée
@@ -350,6 +354,10 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
         return true;
       }
     });
+
+    final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+    Log.d(TAG, "Date actuelle : " + dateFormat.format(new Date()));
   }
 
   // Classe interne pour gérer les événements de zoom
@@ -385,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
               public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 // Récupérez l'heure sélectionnée et l'affichez
                 String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
-                selectedTimeTextView.setText(selectedTime);
+                if(MainActivity.this.db.verify(selectedTime))  selectedTimeTextView.setText(selectedTime);
               }
             },
             hour, minute, true  // Le dernier paramètre `true` signifie un format 24h
