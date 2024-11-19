@@ -28,6 +28,7 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
 
     public CalendarFetcher(Date targetDate) {
         this.targetDate = targetDate;
+        //updateRoomStates();
     }
 
     @Override
@@ -41,9 +42,7 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = Calendar.getInstance().getTime();
 
-        String urlStr = "https://planif.esiee.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=&projectId=12&calType=ical&nbWeeks=4";
-
-        MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
+        String urlStr = "https://planif.esiee.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=746,747,748,2781,2782,3286,682,683,684,685,674,680,727,733,744,786,790,2841,7183,7343,428,659,731,734,736,739,740,741,742,743,782,1852,2555,2584,2743,665,681,735,738,780,785,787,788,1295,2270,2275,2277,2278,2282,4350,5321,5688,704,745,773,728,2117,772,183,185,196,4051,4679,1858,2072,2074,163,167,701,775,776,2272,2276,4794,4937,725,726,759,1908,2594,154,700,705,707,708,712,713,714,715,716,724,737,749,758,1057,2090,2108,2281,6061,299,717,720,721,722,2265,2274,2279,5818,5820&projectId=12&calType=ical&nbWeeks=4";
 
         try {
             // Téléchargez le fichier .ics depuis l'URL spécifiée
@@ -60,11 +59,17 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
             if (ical != null) {
                 List<VEvent> events = ical.getEvents();
 
+                MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
+
                 // Parcourir les événements et vérifier si la date cible est entre la date de début et de fin
                 for (VEvent event : events) {
+                    Log.d(TAG, "Evenement ");
                     Date start = event.getDateStart().getValue();
                     Date end = event.getDateEnd().getValue();
                     String location = event.getLocation().getValue();
+
+                    if (!rooms.containsSalle(location))
+                        rooms.setSalle(new Salle(location, "Libre", new int[] {0, 0}));//libre par défaut
 
                     // Vérifie si la date cible est entre le début et la fin de l'événement
                     if (!date.before(start) && !date.after(end)) {
@@ -72,12 +77,36 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
                             // Vérifiez si l'événement correspond à la salle dans la HashMap
                             if (location.equals(numSalle)) {
                                 // Mettre à jour l'état de la salle avec le résumé de l'événement
-                                rooms.getSalle(numSalle).setState("Occupée : " + event.getSummary().getValue());
+                                rooms.getSalle(numSalle).setState("Occupée");
                                 Log.d(TAG, "Salle : " + numSalle + " - État : " + rooms.getSalle(numSalle).getState());
                             }
                         }
                     }
                 }
+                //Ici rooms contient la liste des salles (Occupées et libres)
+                // TODO fonction pour MAJ la bdd
+
+                // Essai n°2 : parcourir les salles et vérifier si il y a un event
+//                Log.d(TAG, "TEST");
+//                for (String numSalle : rooms.getSallesSet()) {
+//                    Salle salle = rooms.getSalle(numSalle);
+//                    for (VEvent event : events) {
+//                        Date start = event.getDateStart().getValue();
+//                        Date end = event.getDateEnd().getValue();
+//                        String location = event.getLocation().getValue();
+//                        if (!date.before(start) && !date.after(end) ) {
+//                            if (location.equals(numSalle)) {
+//                                salle.setState("Occupée");
+//                                Log.d(TAG, "Salle : " + numSalle + " - État : " + salle.getState());
+//                            } else {
+//                                salle.setState("Libre");
+//                                Log.d(TAG, "Salle : " + numSalle + " - État : " + salle.getState());
+//                            }
+//                        }
+//                    }
+//                }
+            } else {
+                Log.d(TAG, "ical = null");
             }
 
             inputStream.close();

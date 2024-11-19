@@ -60,6 +60,7 @@ import java.util.HashMap;
 
 import android.text.TextWatcher;
 
+import github.yvesbenabou.firebase.libs.CalendarFetcher;
 import github.yvesbenabou.firebase.libs.Salle;
 
 
@@ -226,7 +227,8 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
         Date targetDate = calendar.getTime();
 
         // Lancer le fetcher de calendrier
-        new CalendarFetcher(targetDate).execute();
+        Log.d(TAG, "execute");
+        new CalendarFetcher(targetDate).execute(); //Target date pas utilisée
 
         ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
         selectedTimeTextView = findViewById(R.id.selected_time_textview);
@@ -308,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
             }
         });
 
-        //Récupérer les données ade :
+
     }
 
     // Classe interne pour gérer les événements de zoom
@@ -350,7 +352,9 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
                 hour, minute, true  // Le dernier paramètre `true` signifie un format 24h
         );
 
+        Date targetDate = calendar.getTime();
         timePickerDialog.show();
+        CalendarFetcher cal = new CalendarFetcher(targetDate);
     }
 
     public static class Liste_Salles {
@@ -374,6 +378,13 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
 
         public Collection<String> getSallesSet() {
             return List.keySet();
+        }
+
+        public boolean containsSalle(String numSalle) {
+            for (Salle salle : this.getList()) {
+                if (salle.getNum().equals(numSalle)) return true;
+            }
+            return false;
         }
 
     }
