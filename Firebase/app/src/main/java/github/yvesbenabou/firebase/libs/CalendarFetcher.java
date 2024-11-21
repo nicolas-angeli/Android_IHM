@@ -16,12 +16,14 @@ import biweekly.Biweekly;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
 import github.yvesbenabou.firebase.MainActivity;
+import github.yvesbenabou.firebase.Status;
 import java.util.Calendar;
 
 
 
 public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
 
+    private static MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
     private static final String TAG = "CalendarFetcher";
 
     // Date cible pour filtrer les événements
@@ -36,6 +38,13 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         updateRoomStates();
         return null;
+    }
+
+    private static void checkNumeroSalleEtSetRooms(String location) {
+        location = location.replaceAll("[^0-9]", "");
+        if (!rooms.containsSalle(location)) {
+            rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, new int[]{0, 0}));//libre par défaut
+        }
     }
 
     // Fonction statique pour mettre à jour l'état de chaque salle en fonction d'une date et d'une URL
@@ -60,54 +69,42 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
             if (ical != null) {
                 List<VEvent> events = ical.getEvents();
 
-                MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
+
 
                 // Parcourir les événements et vérifier si la date cible est entre la date de début et de fin
                 for (VEvent event : events) {
-                    Log.d(TAG, "Evenement ");
+                    //Log.d(TAG, "Evenement ");
                     Date start = event.getDateStart().getValue();
                     Date end = event.getDateEnd().getValue();
                     String location = event.getLocation().getValue();
 
-                    if (!rooms.containsSalle(location))
-                        rooms.setSalle(new Salle(location, 0, new int[] {0, 0}));//libre par défaut
+                    if (location.indexOf(',') > -1){//Si plusieur salles dans un seul cours
+                        String[] splitedLocation = location.split(",");
+                        for (String newLocation : splitedLocation){
+                            checkNumeroSalleEtSetRooms(location);
+                        }
+                    }
+                    else checkNumeroSalleEtSetRooms(location);
 
                     // Vérifie si la date cible est entre le début et la fin de l'événement
                     if (!date.before(start) && !date.after(end)) {
                         for (String numSalle : rooms.getSallesSet()) {
+                            Log.d(TAG, "Location =  : "+ location);
+
                             // Vérifiez si l'événement correspond à la salle dans la HashMap
                             if (location.equals(numSalle)) {
                                 // Mettre à jour l'état de la salle avec le résumé de l'événement
-                                rooms.getSalle(numSalle).setState(1);
+                                rooms.getSalle(numSalle).setState(github.yvesbenabou.firebase.Status.CLASS);
                                 Log.d(TAG, "Salle : " + numSalle + " - État : " + rooms.getSalle(numSalle).getState());
                             }
+
+
                         }
                     }
                 }
                 //Ici rooms contient la liste des salles (Occupées et libres)
-                // TODO fonction pour MAJ la bdd
-
                 new PushListInDatabase(rooms);
 
-                // Essai n°2 : parcourir les salles et vérifier si il y a un event
-//                Log.d(TAG, "TEST");
-//                for (String numSalle : rooms.getSallesSet()) {
-//                    Salle salle = rooms.getSalle(numSalle);
-//                    for (VEvent event : events) {
-//                        Date start = event.getDateStart().getValue();
-//                        Date end = event.getDateEnd().getValue();
-//                        String location = event.getLocation().getValue();
-//                        if (!date.before(start) && !date.after(end) ) {
-//                            if (location.equals(numSalle)) {
-//                                salle.setState("Occupée");
-//                                Log.d(TAG, "Salle : " + numSalle + " - État : " + salle.getState());
-//                            } else {
-//                                salle.setState("Libre");
-//                                Log.d(TAG, "Salle : " + numSalle + " - État : " + salle.getState());
-//                            }
-//                        }
-//                    }
-//                }
             } else {
                 Log.d(TAG, "ical = null");
             }

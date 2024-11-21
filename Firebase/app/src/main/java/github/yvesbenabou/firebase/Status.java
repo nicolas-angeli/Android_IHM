@@ -1,7 +1,7 @@
 package github.yvesbenabou.firebase;
 
 public enum Status {
+  FREE,
   CLASS,
-  OCCUPIED,
-  FREE
+  RESERVED
 }

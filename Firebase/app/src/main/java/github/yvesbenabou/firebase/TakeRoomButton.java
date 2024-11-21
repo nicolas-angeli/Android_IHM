@@ -30,6 +30,6 @@ public final class TakeRoomButton extends FloatingActionButton implements Databa
     @Override
     public void take_room(String room) {
         FirebaseApp.initializeApp(this.getContext());
-        FirebaseDatabase.getInstance().getReference().child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(Status.OCCUPIED.ordinal());
+        FirebaseDatabase.getInstance().getReference().child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(Status.RESERVED.ordinal());
     }
 }
