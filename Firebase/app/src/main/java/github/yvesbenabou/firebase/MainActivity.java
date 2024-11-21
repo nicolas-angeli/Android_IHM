@@ -49,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
   private final String floors = "étages";
   private TextView selectedTimeTextView;
   private DoorButton db;
+  private final String reservation = "Réservations";
+
   String TAG = "MainActivity";
-  String room = "";
 
   //Flo boutton etage
   private ImageView backgroundImage;
@@ -96,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       }
     });
 
+    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+
     ConfirmRoomButton crb = findViewById(R.id.confirmroombutton);
     crb.setup(this.db);  // setup the confirm button so that it can call the hide function of the DoorButton when clicked
     crb.setOnClickListener(new View.OnClickListener() {
@@ -103,12 +106,12 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
       public void onClick(View view) {
         // On Click
         // Write data to Firebase Database
-        crb.take_room(crb.getRoom());
+        String room = crb.getRoom();
+        crb.take_room();
+        databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
         crb.hide();
       }
     });
-
-    final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();  // and if you explicit the project name with full URL, you get an exception with forbidden characters!
 
     CancelButton cb = findViewById(R.id.cancelbutton);
     cb.setup(db);  // setup the cancel button so that it can call the hide function of the DoorButton when clicked
@@ -244,13 +247,44 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
 
         // Vérifie que la chaîne est suffisamment longue
         if (salle.length() < 4) {
-          Log.d("Firebase", "Nom de salle trop court.");
+          if (salle.length() == 3) {
+            String salleComplete = "0" + salle;
+            String etage = "" + salleComplete.charAt(1);
+
+            // Référence Firebase
+            DatabaseReference salleRef = databaseRef.child("étages").child(etage).child(salleComplete);
+
+            // Ajout du Listener
+            salleRef.addListenerForSingleValueEvent(new ValueEventListener() {
+              @Override
+              public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                  // Salle trouvée
+                  Log.d("Firebase", "Salle " + salleComplete + " trouvée dans l'étage " + etage);
+                  Object value = dataSnapshot.getValue();
+                  try {
+                    Long status = (Long)value;
+                    if (status != Status.CLASS.ordinal()) MainActivity.this.db.salleFound();
+                  } catch (ClassCastException e) {}
+                  crb.setRoom(salleComplete);
+                } else {
+                  // Salle non trouvée
+                  Log.d("Firebase", "Salle " + salleComplete + " introuvable dans l'étage " + etage);
+                  db.notFound(); // Appel d'une méthode personnalisée
+                }
+              }
+
+              @Override
+              public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase", "Erreur : " + databaseError.getMessage());
+              }
+            });
+          }
           return; // La salle doit être au moins de 4 caractères (comme 1003)
         }
 
-        // Extraire l'étage à partir du premier caractère
-        String etage = "0"; // Étages comme dans votre exemple
         String salleComplete = salle;
+        String etage = "" + salleComplete.charAt(1);
 
         // Référence Firebase
         DatabaseReference salleRef = databaseRef.child("étages").child(etage).child(salleComplete);
@@ -262,7 +296,11 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
             if (dataSnapshot.exists()) {
               // Salle trouvée
               Log.d("Firebase", "Salle " + salleComplete + " trouvée dans l'étage " + etage);
-              MainActivity.this.db.salleFound(); // Appel d'une méthode personnalisée
+              Object value = dataSnapshot.getValue();
+              try {
+                Long status = (Long)value;
+                if (status != Status.CLASS.ordinal()) MainActivity.this.db.salleFound();
+              } catch (ClassCastException e) {}
               crb.setRoom(salleComplete);
             } else {
               // Salle non trouvée
@@ -337,10 +375,6 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
         return true;
       }
     });
-
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
-    Log.d(TAG, "Date actuelle : " + dateFormat.format(new Date()));
   }
 
   // Classe interne pour gérer les événements de zoom
@@ -376,7 +410,9 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
               public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 // Récupérez l'heure sélectionnée et l'affichez
                 String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
-                if(MainActivity.this.db.verify(selectedTime))  selectedTimeTextView.setText(selectedTime);
+                if(MainActivity.this.db.verify(selectedTime))  {
+                  selectedTimeTextView.setText(selectedTime);
+                }
               }
             },
             hour, minute, true  // Le dernier paramètre `true` signifie un format 24h
