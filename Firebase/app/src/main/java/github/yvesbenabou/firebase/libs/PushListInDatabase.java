@@ -10,6 +10,8 @@ import github.yvesbenabou.firebase.Status;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.annotation.NonNull;
+
 public class PushListInDatabase {
     private static final String floors = "étages";
     private static final int MAX_LENGTH = 7;//Numéro de salle max : xx0xV++
@@ -18,7 +20,7 @@ public class PushListInDatabase {
 
         for (Salle salle : rooms.getList()) {
             //Limite provisoire pour la bdd :
-            if (i++ > 50) return;
+            //if (i++ > 50) return;
 
             // TODO : Insertion de la salle dans la base de données Firebase
             // Exemple : FirebaseDatabase.getInstance().getReference("salles").child(room.getNum()).setValue(room);
@@ -30,7 +32,7 @@ public class PushListInDatabase {
         }
     }
 
-    public void push_room(Salle salle) {
+    public void push_room(@NonNull Salle salle) {
         String room = salle.getNum();
         //FirebaseApp.initializeApp(this.getContext());
         if (salle.getState() == Status.CLASS)
