@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/relativeLayout"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="false"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="github.yvesbenabou.firebase.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/school_map2" />
-
-    <!-- ImageView pour afficher l'image de fond -->
-    <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/school_map1" /> <!-- Image par défaut -->
+        android:scaleType="fitXY"
+        android:src="@drawable/school_map1"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true" /> <!-- Image par défaut -->
 
     <!-- Button pour changer l'image en slide et afficher le numéro de l'image -->
     <Button
@@ -145,12 +142,12 @@
         android:id="@+id/salle_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="75dp"
-        android:layout_marginLeft="95dp"
-        android:layout_marginBottom="345dp"
+        android:layout_alignLeft="@id/modifybutton"
+        android:layout_marginLeft="0dp"
+        android:layout_alignRight="@id/takeroombubble"
+        android:layout_marginRight="120dp"
+        android:layout_alignBottom="@id/modifybutton"
+        android:layout_marginBottom="115dp"
         android:background="#FFFFFF"
         android:textColor="#000000"
         android:textColorHint="#757575"
@@ -162,13 +159,11 @@
         android:id="@+id/selected_time_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="      Heure"
-        android:textSize="18sp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="140dp"
-        android:layout_marginLeft="150dp"
+        android:text="Heure"
+        android:textSize="18sp"
+        android:layout_alignLeft="@id/modifybutton"
+        android:layout_marginLeft="80dp"
         android:layout_marginBottom="250dp"
         android:textColor="#000000"
         android:visibility="gone"

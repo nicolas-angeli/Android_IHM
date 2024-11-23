@@ -69,11 +69,11 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
             if (ical != null) {
                 List<VEvent> events = ical.getEvents();
 
-
+                MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
 
                 // Parcourir les événements et vérifier si la date cible est entre la date de début et de fin
                 for (VEvent event : events) {
-                    //Log.d(TAG, "Evenement ");
+                    Log.d(TAG, "Evenement ");
                     Date start = event.getDateStart().getValue();
                     Date end = event.getDateEnd().getValue();
                     String location = event.getLocation().getValue();
@@ -97,8 +97,6 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
                                 rooms.getSalle(numSalle).setState(github.yvesbenabou.firebase.Status.CLASS);
                                 Log.d(TAG, "Salle : " + numSalle + " - État : " + rooms.getSalle(numSalle).getState());
                             }
-
-
                         }
                     }
                 }

@@ -15,7 +15,7 @@ import biweekly.Biweekly;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
 
-public class ReservationFetcher extends AsyncTask<Void, Void, Void> {
+public class LiberationFetcher extends AsyncTask<Void, Void, Void> {
 
     private static final String CALENDAR_URL = "https://planif.esiee.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=260,261,1190,1538&projectId=12&calType=ical&nbWeeks=4";
     private static final String TAG = "ReservationFetcher";
@@ -23,7 +23,7 @@ public class ReservationFetcher extends AsyncTask<Void, Void, Void> {
     // Date cible pour filtrer les événements
     private Date targetDate;
 
-    public ReservationFetcher(Date targetDate) {
+    public LiberationFetcher(Date targetDate) {
         this.targetDate = targetDate;
     }
 

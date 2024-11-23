@@ -15,6 +15,7 @@ public final class ConfirmRoomButton extends FloatingActionButton implements Dat
   private DoorButton mDoorButton;
   public static int green;
   public static int red;
+  private String room = "";
 
   public ConfirmRoomButton(@NonNull Context context) {
     super(context);
@@ -39,8 +40,15 @@ public final class ConfirmRoomButton extends FloatingActionButton implements Dat
   }
 
   @Override
-  public void take_room(String room) {
-    FirebaseApp.initializeApp(this.getContext());
+  public void take_room() {
     FirebaseDatabase.getInstance().getReference().child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(Status.RESERVED.ordinal());
+  }
+
+  public String getRoom() {
+    return room;
+  }
+
+  public void setRoom(String room) {
+    this.room = room;
   }
 }
