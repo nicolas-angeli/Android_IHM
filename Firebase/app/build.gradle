@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion compileSdkVer
+    namespace 'github.yvesbenabou.firebase'
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "github.yvesbenabou.firebase"
@@ -22,6 +23,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    //webview
+    implementation 'androidx.webkit:webkit:1.9.0'
 
     implementation "androidx.appcompat:appcompat:$appCompat"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVer"
@@ -34,6 +37,9 @@ dependencies {
 
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'net.sf.biweekly:biweekly:0.6.6'
+    implementation 'net.sf.biweekly:biweekly:0.6.6'
+
+
 }
 
 // Add to the bottom of the file

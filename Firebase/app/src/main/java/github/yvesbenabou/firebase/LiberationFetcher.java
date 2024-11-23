@@ -18,7 +18,7 @@ import biweekly.component.VEvent;
 public class LiberationFetcher extends AsyncTask<Void, Void, Void> {
 
     private static final String CALENDAR_URL = "https://planif.esiee.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=260,261,1190,1538&projectId=12&calType=ical&nbWeeks=4";
-    private static final String TAG = "CalendarFetcher";
+    private static final String TAG = "ReservationFetcher";
 
     // Date cible pour filtrer les événements
     private Date targetDate;
@@ -57,11 +57,11 @@ public class LiberationFetcher extends AsyncTask<Void, Void, Void> {
 
                     // Filtrer par date (vous pouvez aussi ajouter une condition d'heure)
                     if (dateFormat.format(start).equals(targetDateStr)) {
-                        Log.d(TAG, "Événement : " + event.getSummary().getValue());
-                        Log.d(TAG, "Début : " + start.toString());
-                        Log.d(TAG, "Fin : " + end.toString());
-                        Log.d(TAG, "Salle : " + location);
-                        Log.d(TAG, "---------------------");
+//                        Log.d(TAG, "Événement : " + event.getSummary().getValue());
+//                        Log.d(TAG, "Début : " + start.toString());
+//                        Log.d(TAG, "Fin : " + end.toString());
+//                        Log.d(TAG, "Salle : " + location);
+//                        Log.d(TAG, "---------------------");
 
                         tab[i][0] = start.toString();
                         tab[i][1] = end.toString();
