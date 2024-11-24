@@ -1,14 +1,6 @@
-package github.yvesbenabou.firebase.libs;
+package github.yvesbenabou.firebase;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
-
-import github.yvesbenabou.firebase.MainActivity;
-import github.yvesbenabou.firebase.Database_Input;
-import github.yvesbenabou.firebase.Status;
-
-import android.content.Context;
-import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 
@@ -35,10 +27,12 @@ public class PushListInDatabase {
     public void push_room(@NonNull Salle salle) {
         String room = salle.getNum();
         //FirebaseApp.initializeApp(this.getContext());
-        if (salle.getState() == Status.CLASS)
+        if (salle.getState() == Status.CLASS) {
             FirebaseDatabase.getInstance().getReference().child(floors).child(String.valueOf(salle.getEtage())).child(room).setValue(salle.getState().ordinal());//.setValue(1);
+            FirebaseDatabase.getInstance().getReference().child("Réservations").child(floors).child(String.valueOf(salle.getEtage())).child(room).setValue(salle.getEnd());
 //        else {
 //            FirebaseDatabase.getInstance().getReference().child(floors).child(String.valueOf(salle.getEtage())).child(room).setValue(0);
 //        }
+        }
     }
 }
