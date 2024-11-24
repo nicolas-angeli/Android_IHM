@@ -40,9 +40,8 @@ public final class ConfirmRoomButton extends FloatingActionButton implements Dat
   }
 
   @Override
-  public void take_room(String room) {
-    FirebaseApp.initializeApp(this.getContext());
-    FirebaseDatabase.getInstance().getReference().child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(Status.OCCUPIED.ordinal());
+  public void take_room() {
+    FirebaseDatabase.getInstance().getReference().child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(Status.RESERVED.ordinal());
   }
 
   public String getRoom() {

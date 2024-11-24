@@ -1,12 +1,14 @@
 package github.yvesbenabou.firebase.libs;
 
+import github.yvesbenabou.firebase.Status;
+
 public class Salle {
     private  String num;   // Numéro de la salle
-    private String state; // État de la salle
+    private Status state; // État de la salle
     private int[] pos;    // Position de la salle, par exemple (x, y)
 
     // Constructeur
-    public Salle(String num, String state, int[] pos) {
+    public Salle(String num, Status state, int[] pos) {
         this.num = num;
         this.state = state;
         this.pos = pos;
@@ -21,11 +23,11 @@ public class Salle {
         this.num = num;
     }
 
-    public String getState() {
+    public Status getState() {
         return this.state;
     }
 
-    public void setState(String state) {
+    public void setState(Status state) {
         this.state = state;
     }
 
@@ -34,7 +36,7 @@ public class Salle {
     }
 
     public int getEtage(){
-        return ((int)num.charAt(2));
+        return ((int)num.charAt(1)) - '0';
     }
 
     public void setPos(int[] pos) {
