@@ -1,6 +1,4 @@
 package github.yvesbenabou.firebase;
-import android.util.Log;
-import github.yvesbenabou.firebase.libs.*;
 
 public class getAdeDatas extends MainActivity{
     String pageSource;

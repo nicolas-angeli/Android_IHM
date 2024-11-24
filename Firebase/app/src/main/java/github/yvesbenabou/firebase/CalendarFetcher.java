@@ -1,24 +1,25 @@
-package github.yvesbenabou.firebase.libs;
+package github.yvesbenabou.firebase;
 import android.os.AsyncTask;
 import android.util.Log;
 
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import biweekly.Biweekly;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
-import github.yvesbenabou.firebase.MainActivity;
-import github.yvesbenabou.firebase.Status;
-import java.util.Calendar;
 
+import java.util.Calendar;
+import java.util.TimeZone;
 
 
 public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
@@ -26,12 +27,8 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
     private static MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
     private static final String TAG = "CalendarFetcher";
 
-    // Date cible pour filtrer les événements
-    private Date targetDate;
+    public CalendarFetcher() {
 
-    public CalendarFetcher(Date targetDate) {
-        this.targetDate = targetDate;
-        //updateRoomStates();
     }
 
     @Override
@@ -40,23 +37,24 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    private static void checkNumeroSalleEtSetRooms(String location) {
+    private static void checkNumeroSalleEtSetRooms(String location, Date end) {
         location = location.replaceAll("[^0-9]", "");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        format.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+        String str = format.format(end);
+
         if (!rooms.containsSalle(location)) {
-            rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, new int[]{0, 0}));//libre par défaut
+            rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, str,new int[]{0, 0}));//libre par défaut
         }
     }
 
     // Fonction statique pour mettre à jour l'état de chaque salle en fonction d'une date et d'une URL
     public static void updateRoomStates() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = Calendar.getInstance().getTime();
-
-        String urlStr = "https://planif.esiee.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=746,747,748,2781,2782,3286,682,683,684,685,674,680,727,733,744,786,790,2841,7183,7343,428,659,731,734,736,739,740,741,742,743,782,1852,2555,2584,2743,665,681,735,738,780,785,787,788,1295,2270,2275,2277,2278,2282,4350,5321,5688,704,745,773,728,2117,772,183,185,196,4051,4679,1858,2072,2074,163,167,701,775,776,2272,2276,4794,4937,725,726,759,1908,2594,154,700,705,707,708,712,713,714,715,716,724,737,749,758,1057,2090,2108,2281,6061,299,717,720,721,722,2265,2274,2279,5818,5820&projectId=12&calType=ical&nbWeeks=4";
 
         try {
             // Téléchargez le fichier .ics depuis l'URL spécifiée
-            URL url = new URL(urlStr);
+            URL url = new URL(MainActivity.url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
@@ -81,10 +79,10 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
                     if (location.indexOf(',') > -1){//Si plusieur salles dans un seul cours
                         String[] splitedLocation = location.split(",");
                         for (String newLocation : splitedLocation){
-                            checkNumeroSalleEtSetRooms(location);
+                            checkNumeroSalleEtSetRooms(location, end);
                         }
                     }
-                    else checkNumeroSalleEtSetRooms(location);
+                    else checkNumeroSalleEtSetRooms(location, end);
 
                     // Vérifie si la date cible est entre le début et la fin de l'événement
                     if (!date.before(start) && !date.after(end)) {

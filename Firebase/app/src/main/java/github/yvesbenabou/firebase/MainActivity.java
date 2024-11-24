@@ -1,16 +1,8 @@
 package github.yvesbenabou.firebase;
 
-import android.content.Context;
-import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.text.Editable;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -26,57 +18,33 @@ import com.google.firebase.database.ValueEventListener;
 //Flo boutton etage
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 
 //Flo boutton info
-import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 
 // Flo images svg zoom (reste déjà import)
 import android.view.ScaleGestureDetector;
 
 //Nico synchro de la base de données avec ADE
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 //Nico horloge
 import android.app.TimePickerDialog;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.util.HashMap;
-import java.util.TimeZone;
-
-import androidx.appcompat.app.AppCompatActivity;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import android.text.TextWatcher;
 
-import github.yvesbenabou.firebase.libs.CalendarFetcher;
-import github.yvesbenabou.firebase.libs.Salle;
-
-
-import github.yvesbenabou.firebase.libs.CalendarFetcher;
-import github.yvesbenabou.firebase.libs.Salle;
-
-public class MainActivity extends AppCompatActivity implements Database_Out {
+public class MainActivity extends AppCompatActivity{
     private final String floors = "étages";
     private TextView selectedTimeTextView;
     private DoorButton db;
     private final String reservation = "Réservations";
+    public static DatabaseReference databaseRef;
+    public static String url = "";
 
     String TAG = "MainActivity";
     String room = "";
@@ -107,8 +75,6 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
         setContentView(R.layout.activity_main);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        //txt = (TextView) findViewById(R.id.text);
-
         this.db = findViewById(R.id.doorbutton);
         this.db.setup((ImageView) findViewById(R.id.takeroombubble),
                 findViewById(R.id.confirmroombutton),
@@ -125,7 +91,18 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
             }
         });
 
-        final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+        databaseRef = FirebaseDatabase.getInstance().getReference();
+        databaseRef.child("ICalendarUrl").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                MainActivity.url = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase", "Erreur : " + databaseError.getMessage());
+            }
+        });
 
         ConfirmRoomButton crb = findViewById(R.id.confirmroombutton);
         crb.setup(this.db);  // setup the confirm button so that it can call the hide function of the DoorButton when clicked
@@ -136,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
                 // Write data to Firebase Database
                 String room = crb.getRoom();
                 crb.take_room();
-                databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
+                MainActivity.databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
                 crb.hide();
             }
         });
@@ -226,14 +203,10 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
                 return true;
             }
         });
-        // ADE
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2024, Calendar.NOVEMBER, 25, 8, 30);  // 25 novembre 2023, 8h30
-        Date targetDate = calendar.getTime();
 
-        // Lancer le fetcher de calendrier
-        Log.d(TAG, "execute");
-        new CalendarFetcher(targetDate).execute(); //Target date pas utilisée
+        // Update et rafraichit les données de la base avec ADE si nécessaire
+        new CalendarFetcher().execute();
+        //new UpdateFetcher().execute();
 
         ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
         selectedTimeTextView = findViewById(R.id.selected_time_textview);
@@ -419,10 +392,8 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
         }
     }
 
-    @Override
-    public void update() {
-        //cette fonction sera appelée toutes les 15 mins pour resynchroniser avec ADE
-
+    public static void ADE_refresh() {
+        new CalendarFetcher().execute();
     }
 
     private void showTimePickerDialog() {
