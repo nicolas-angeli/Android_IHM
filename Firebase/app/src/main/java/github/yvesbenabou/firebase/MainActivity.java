@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
 
     ConfirmRoomButton crb = findViewById(R.id.confirmroombutton);
     crb.setup(this.db);  // setup the confirm button so that it can call the hide function of the DoorButton when clicked
-    crb.setOnClickListener(new View.OnClickListener() {
+    /*crb.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         // On Click
@@ -106,7 +106,19 @@ public class MainActivity extends AppCompatActivity implements Database_Out {
         crb.take_room(crb.getRoom());
         crb.hide();
       }
-    });
+    });*/
+  /*
+    crb.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        // On Click
+        // Write data to Firebase Database
+        String room = crb.getRoom();
+        crb.take_room();
+        MainActivity.databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
+        crb.hide();
+         }
+    });*/
 
     final DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();  // and if you explicit the project name with full URL, you get an exception with forbidden characters!
 
