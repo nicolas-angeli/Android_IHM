@@ -1,0 +1,224 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "github.yvesbenabou.firebase.MainActivity",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_366045671 { 
+   	label=yvesbenabou
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_172904914 { 
+   	label=firebase
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   CancelButton1185936551[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CancelButton</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   mDoorButton: DoorButton [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ hide()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ConfirmRoomButton1185936551[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ConfirmRoomButton</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   floors: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mDoorButton: DoorButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   room: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ hide()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ take_room()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DoorButton1185936551[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DoorButton</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   cancelButton: CancelButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   crb: ConfirmRoomButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   dateFormat: SimpleDateFormat [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   modifyButton: ModifyButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   roomText: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   selectedTimeTextView: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   takeRoomBubble: ImageView [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ hide()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ notFound()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ salleFound()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ verify(time: String): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MainActivity1185936551[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MainActivity</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   TAG: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   backgroundImage: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   currentIndex: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   db: DoorButton [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   floors: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   handler: Handler [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   imageResources: int[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   infoImage: ImageView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   initialY: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   reservation: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   room: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   scaleFactor: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   scaleGestureDetector: ScaleGestureDetector [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   selectedTimeTextView: TextView [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >- showTimePickerDialog()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ModifyButton1185936551[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ModifyButton</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+getAdeDatas1185936551[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)getAdeDatas</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   pageSource: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getAdeData(time: String): Liste_Salles</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+CancelButton1185936551 -> DoorButton1185936551[label="mDoorButton
+[0..1]"];
+ConfirmRoomButton1185936551 -> DoorButton1185936551[label="mDoorButton
+[0..1]"];
+DoorButton1185936551 -> CancelButton1185936551[label="cancelButton
+[0..1]"];
+DoorButton1185936551 -> ConfirmRoomButton1185936551[label="crb
+[0..1]"];
+DoorButton1185936551 -> ModifyButton1185936551[label="modifyButton
+[0..1]"];
+MainActivity1185936551 -> DoorButton1185936551[label="db
+[0..1]"];
+MainActivity1185936551 -> getAdeDatas1185936551[arrowhead=none, arrowtail=empty, dir=both];
+    
+}
+@enduml
