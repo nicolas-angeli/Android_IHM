@@ -29,6 +29,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appCompat"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVer"
     implementation "com.google.android.material:material:$supportLibVer"
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation "com.google.firebase:firebase-database:$firebaseDatabase"
     // Testing-only dependencies
     testImplementation "junit:junit:$junitVer"

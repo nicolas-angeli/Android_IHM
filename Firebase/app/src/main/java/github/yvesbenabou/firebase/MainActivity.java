@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -62,7 +63,6 @@ public class MainActivity extends AppCompatActivity{
     public static String url = "";
 
     String TAG = "MainActivity";
-    String room = "";
 
   //Flo boutton etage
   private ImageView backgroundImage;
@@ -97,49 +97,47 @@ public class MainActivity extends AppCompatActivity{
     setContentView(R.layout.activity_main);
     FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        this.db = findViewById(R.id.doorbutton);
-        this.db.setup((ImageView) findViewById(R.id.takeroombubble),
-                findViewById(R.id.confirmroombutton),
-                findViewById(R.id.cancelbutton),
-                findViewById(R.id.modifybutton),
-                findViewById(R.id.selected_time_textview),
-                findViewById(R.id.salle_input));
-        this.db.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // On Click
-                // Write data to Firebase Database
-                MainActivity.this.db.show();
-            }
-        });
+    databaseRef = FirebaseDatabase.getInstance().getReference();
+    databaseRef.child("ICalendarUrl").get().addOnCompleteListener(task -> {
+      if (task.isSuccessful() && task.getResult().exists()) {
+        MainActivity.this.url = task.getResult().getValue(String.class);
+        Log.d("TAG", "URL récupérée : " + url);
+        // Update et rafraichit les données de la base avec ADE si nécessaire
+        new UpdateFetcher().execute();
+      } else {
+        Log.d("TAG", "La clé ICalendarUrl n'existe pas ou une erreur est survenue.");
+      }
+    });
 
-        databaseRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference url_ref = databaseRef.child("ICalendarUrl");
-        url_ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                MainActivity.url = dataSnapshot.getValue(String.class);
-            }
+    this.db = findViewById(R.id.doorbutton);
+    this.db.setup((ImageView) findViewById(R.id.takeroombubble),
+            findViewById(R.id.confirmroombutton),
+            findViewById(R.id.cancelbutton),
+            findViewById(R.id.modifybutton),
+            findViewById(R.id.selected_time_textview),
+            findViewById(R.id.salle_input));
+    this.db.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // On Click
+            // Write data to Firebase Database
+            MainActivity.this.db.show();
+        }
+    });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("Firebase", "Erreur : " + databaseError.getMessage());
-            }
-        });
-
-        ConfirmRoomButton crb = findViewById(R.id.confirmroombutton);
-        crb.setup(this.db);  // setup the confirm button so that it can call the hide function of the DoorButton when clicked
-        crb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // On Click
-                // Write data to Firebase Database
-                String room = crb.getRoom();
-                crb.take_room();
-                MainActivity.databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
-                crb.hide();
-            }
-        });
+    ConfirmRoomButton crb = findViewById(R.id.confirmroombutton);
+    crb.setup(this.db);  // setup the confirm button so that it can call the hide function of the DoorButton when clicked
+    crb.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // On Click
+            // Write data to Firebase Database
+            String room = crb.getRoom();
+            crb.take_room();
+            MainActivity.databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
+            crb.hide();
+        }
+    });
 
     CancelButton cb = findViewById(R.id.cancelbutton);
     cb.setup(db);  // setup the cancel button so that it can call the hide function of the DoorButton when clicked
@@ -238,11 +236,8 @@ public class MainActivity extends AppCompatActivity{
                 scaleGestureDetector.onTouchEvent(event);  // Passe les événements au ScaleGestureDetector
                 return true;
             }
-        });
-
-        // Update et rafraichit les données de la base avec ADE si nécessaire
-        new CalendarFetcher().execute();
-        //new UpdateFetcher().execute();
+        }
+    );
 
     ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
     selectedTimeTextView = findViewById(R.id.selected_time_textview);
