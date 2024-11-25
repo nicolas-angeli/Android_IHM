@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity{
         });
 
         databaseRef = FirebaseDatabase.getInstance().getReference();
-        databaseRef.child("ICalendarUrl").addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference url_ref = databaseRef.child("ICalendarUrl");
+        url_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 MainActivity.url = dataSnapshot.getValue(String.class);
@@ -240,8 +241,8 @@ public class MainActivity extends AppCompatActivity{
         });
 
         // Update et rafraichit les données de la base avec ADE si nécessaire
-        //new CalendarFetcher().execute();
-        new UpdateFetcher().execute();
+        new CalendarFetcher().execute();
+        //new UpdateFetcher().execute();
 
     ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
     selectedTimeTextView = findViewById(R.id.selected_time_textview);
