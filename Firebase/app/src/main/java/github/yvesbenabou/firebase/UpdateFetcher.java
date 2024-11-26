@@ -99,7 +99,7 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                                 int update_hour = Integer.parseInt(ADE_time.substring(0, 2));
                                 int update_minute = Integer.parseInt(ADE_time.substring(3, 5));
 
-                                UpdateFetcher.b_ADETime = (hour > update_hour || (hour == update_hour && minute == update_minute + 30));
+                                UpdateFetcher.b_ADETime = (hour > update_hour  && minute > 0 || (hour == update_hour && minute > update_minute + 30));
                             } catch (ClassCastException e) {
                             }
                         }
