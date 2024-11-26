@@ -2,11 +2,6 @@ package github.yvesbenabou.firebase;
 import android.os.AsyncTask;
 import android.util.Log;
 
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -66,8 +61,6 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
 
             if (ical != null) {
                 List<VEvent> events = ical.getEvents();
-
-                //MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
 
                 // Parcourir les événements et vérifier si la date cible est entre la date de début et de fin
                 for (VEvent event : events) {

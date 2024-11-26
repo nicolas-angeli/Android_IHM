@@ -15,7 +15,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -25,12 +24,6 @@ import java.util.TimeZone;
 //Flo boutton etage
 import android.view.MotionEvent;
 import android.widget.Button;
-
-//Flo boutton info
-import android.os.Handler;
-
-// Flo images svg zoom (reste déjà import)
-import android.view.ScaleGestureDetector;
 
 //Nico synchro de la base de données avec ADE
 import java.util.Calendar;
@@ -46,10 +39,7 @@ import java.util.TimeZone;
 import android.text.TextWatcher;
 
 //Flo bouton couleurs
-import android.graphics.Color;
 import android.widget.RelativeLayout;
-import android.util.DisplayMetrics;
-import android.content.Context;
 
 
 import java.util.ArrayList;
@@ -58,6 +48,8 @@ public class MainActivity extends AppCompatActivity{
     private final String floors = "étages";
     private TextView selectedTimeTextView;
     private DoorButton db;
+    private CancelButton cb;
+    private ImageView takeroombubble;
     private final String reservation = "Réservations";
     public static DatabaseReference databaseRef;
     public static String url = "";
@@ -79,17 +71,10 @@ public class MainActivity extends AppCompatActivity{
 
 // Flo bouton info
   private ImageView infoImage;
-  private Handler handler = new Handler();
-
-// Flo images svg zoom
-  private ScaleGestureDetector scaleGestureDetector;
-  private float scaleFactor = 1.0f;  // Facteur de zoom initial
-
 
   // Flo boutons couleurs
   private RelativeLayout relativeLayout; // Le conteneur principal pour placer les boutons
   private HashMap<Integer, ArrayList<Button>> mapButtons; // Associe les maps avec leurs boutons
-  //private int currentIndex = 1; // Index de la map actuelle
 
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +124,7 @@ public class MainActivity extends AppCompatActivity{
         }
     });
 
-    CancelButton cb = findViewById(R.id.cancelbutton);
+    cb = findViewById(R.id.cancelbutton);
     cb.setup(db);  // setup the cancel button so that it can call the hide function of the DoorButton when clicked
     cb.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -175,12 +160,6 @@ public class MainActivity extends AppCompatActivity{
     // Flo bouton couleur
     // Initialiser le layout principal
     relativeLayout = findViewById(R.id.relativeLayout);
-
-    // Initialiser les boutons pour chaque map
-    initializeButtons();
-
-    // Initialiser les boutons pour chaque map
-    initializeButtons();
 
     slideButton.setOnTouchListener(new View.OnTouchListener() {
       private float initialY;
@@ -224,20 +203,7 @@ public class MainActivity extends AppCompatActivity{
 
     // Flo images svg zoom
     backgroundImage = findViewById(R.id.backgroundImage);
-    backgroundImage.setImageResource(R.drawable.school_map1); // Assurez-vous que c'est un VectorDrawable
-
-    // Initialisation du ScaleGestureDetector
-    scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
-        // Appliquer un OnTouchListener pour détecter le zoom
-        backgroundImage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                scaleGestureDetector.onTouchEvent(event);  // Passe les événements au ScaleGestureDetector
-                return true;
-            }
-        }
-    );
+    backgroundImage.setImageResource(R.drawable.school_map1);
 
     ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
     selectedTimeTextView = findViewById(R.id.selected_time_textview);
@@ -251,12 +217,6 @@ public class MainActivity extends AppCompatActivity{
     });
 
     EditText salleInput = findViewById(R.id.salle_input);
-    salleInput.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        salleInput.setVisibility(View.VISIBLE);
-      }
-    });
 
     salleInput.addTextChangedListener(new TextWatcher() {
       private boolean isUpdating = false;
@@ -321,55 +281,21 @@ public class MainActivity extends AppCompatActivity{
     });
 
     ImageView backgroundImage = findViewById(R.id.backgroundImage);
-    ImageView takeroombubble = findViewById(R.id.takeroombubble);
+    RelativeLayout background = findViewById(R.id.relativeLayout);
+    takeroombubble = findViewById(R.id.takeroombubble);
 
     backgroundImage.setOnTouchListener(new View.OnTouchListener() {
       @Override
       public boolean onTouch(View view, MotionEvent event) {
-        boolean info = (infoImage.getVisibility() == View.VISIBLE);
-        boolean reservation = (takeroombubble.getVisibility() == View.VISIBLE);
-        if (info || reservation) {
-          // Log pour voir si l'événement tactile est détecté
-          Log.d("TouchEvent", "Touch event detected");
+        verifyClick(event);
+        return true;
+      }
+    });
 
-          if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            Log.d("TouchEvent", "Action down detected");
-
-            // Coordonnées du touch
-            float touchX = event.getX();
-            float touchY = event.getY();
-            Log.d("TouchEvent", "Touch coordinates: " + touchX + ", " + touchY);
-
-            // Récupérer les dimensions et position de l'ImageView
-            int[] infoCoords = new int[2];
-            infoImage.getLocationInWindow(infoCoords);
-
-            int imageLeft = infoCoords[0];
-            int imageTop = infoCoords[1];
-            int imageRight = imageLeft + infoImage.getWidth();
-            int imageBottom = imageTop + infoImage.getHeight();
-
-            Log.d("TouchEvent", "Image bounds: " + imageLeft + ", " + imageTop + ", " + imageRight + ", " + imageBottom);
-
-            // Vérifier si le touch est en dehors
-            if (touchX < imageLeft || touchX > imageRight ||
-                    touchY < imageTop || touchY > imageBottom) {
-              infoImage.setVisibility(View.GONE);
-            }
-
-            takeroombubble.getLocationInWindow(infoCoords);
-
-            imageLeft = infoCoords[0];
-            imageTop = infoCoords[1];
-            imageRight = imageLeft + takeroombubble.getWidth();
-            imageBottom = imageTop + takeroombubble.getHeight();
-
-            if (touchX < imageLeft || touchX > imageRight ||
-                    touchY < imageTop || touchY > imageBottom) {
-              cb.hide();
-            }
-          }
-        }
+    background.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View view, MotionEvent event) {
+        verifyClick(event);
         return true;
       }
     });
@@ -379,22 +305,49 @@ public class MainActivity extends AppCompatActivity{
     Log.d(TAG, "Date actuelle : " + dateFormat.format(new Date()));
   }
 
-  // Classe interne pour gérer les événements de zoom
-  // Sert pour le ScaleListener du zoom
-  private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-    @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-      scaleFactor *= detector.getScaleFactor();  // Augmenter ou réduire le facteur de zoom en fonction du geste
-      scaleFactor = Math.max(0.5f, Math.min(scaleFactor, 3.0f));  // Limite le zoom entre 0.5x et 3x
-      backgroundImage.setScaleX(scaleFactor);  // Applique le zoom en X
-      backgroundImage.setScaleY(scaleFactor);  // Applique le zoom en Y
-      return true;
+  private void verifyClick(MotionEvent event) {
+    boolean info = (infoImage.getVisibility() == View.VISIBLE);
+    boolean reservation = (takeroombubble.getVisibility() == View.VISIBLE);
+    if (info || reservation) {
+
+      if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        // Coordonnées du touch
+        float touchX = event.getX();
+        float touchY = event.getY();
+
+        // Récupérer les dimensions et position de l'ImageView
+        int[] infoCoords = new int[2];
+        infoImage.getLocationInWindow(infoCoords);
+
+        int imageLeft = infoCoords[0];
+        int imageTop = infoCoords[1];
+        int imageRight = imageLeft + infoImage.getWidth();
+        int imageBottom = imageTop + infoImage.getHeight();
+
+        // Vérifier si le touch est en dehors
+        if (touchX < imageLeft || touchX > imageRight ||
+                touchY < imageTop || touchY > imageBottom) {
+          infoImage.setVisibility(View.GONE);
+        }
+
+        takeroombubble.getLocationInWindow(infoCoords);
+
+        imageLeft = infoCoords[0];
+        imageTop = infoCoords[1];
+        imageRight = imageLeft + takeroombubble.getWidth();
+        imageBottom = imageTop + takeroombubble.getHeight();
+
+        if (touchX < imageLeft || touchX > imageRight ||
+                touchY < imageTop || touchY > imageBottom) {
+          cb.hide();
+        }
+      }
     }
   }
 
-    public static void ADE_refresh() {
-        new CalendarFetcher().execute();
-    }
+  public static void ADE_refresh() {
+      new CalendarFetcher().execute();
+  }
 
   private void showTimePickerDialog() {
     // Obtenez l'heure actuelle pour l'initialiser dans le TimePicker
@@ -450,241 +403,11 @@ public class MainActivity extends AppCompatActivity{
 
   }
 
-
-  // Flo boutons couleurs
-
-  /*private void initializeButtons() {
-    mapButtons = new HashMap<>();
-
-    // Exemple : Boutons pour chaque map
-    for (int i = 0; i < imageResources.length; i++) {
-      ArrayList<Button> buttons = new ArrayList<>();
-
-      // Ajouter des boutons avec des positions spécifiques pour chaque map
-      Button button1 = createButton(100, 300); // Position (x, y)
-      Button button2 = createButton(300, 400);
-
-      buttons.add(button1);
-      buttons.add(button2);
-
-      mapButtons.put(i, buttons);
-    }
-  }*/
-  private void initializeButtons() {
-    mapButtons = new HashMap<>();
-
-    // Exemple de configurations spécifiques pour chaque map
-    for (int i = 0; i < imageResources.length; i++) {
-      ArrayList<Button> buttons = new ArrayList<>();
-
-      switch (i) {
-        case 0:
-          // Map 0 : Deux boutons
-          break;
-
-        case 1:
-          // Epi 5
-          Button Button_5107 = createButtonWithPercentage(0.78, 0.408, 0.025, 0.02); // Position (100, 200)
-          Button Button_5105 = createButtonWithPercentage(0.705, 0.408, 0.025, 0.02); // Position (100, 200)
-          Button Button_5103 = createButtonWithPercentage(0.658, 0.408, 0.022, 0.02); // Position (100, 200)
-          Button Button_5101 = createButtonWithPercentage(0.616, 0.408, 0.018, 0.02); // Position (100, 200)
-
-         // Button Button_1103 = createButton(100, 200); // Position (100, 200)
-          //Button Button_1106 = createButton(100, 200); // Position (100, 200)
-          //Button Button_1107 = createButton(100, 200); // Position (100, 200)
-          //Button Button_1109 = createButton(100, 200); // Position (100, 200)
-
-          // Epi 4
-          Button Button_4109 = createButtonWithPercentage(0.81, 0.511, 0.025, 0.02); // Position (100, 200)
-          Button Button_4107 = createButtonWithPercentage(0.75, 0.52, 0.025, 0.02); // Position (100, 200)
-          Button Button_4105 = createButtonWithPercentage(0.685, 0.512, 0.02, 0.02); // Position (100, 200)
-          Button Button_4103 = createButtonWithPercentage(0.656, 0.512, 0.018, 0.02); // Position (100, 200)
-          Button Button_4101 = createButtonWithPercentage(0.616, 0.512, 0.018, 0.02); // Position (100, 200)
-
-          // Epi 3
-
-          Button Button_3109 = createButtonWithPercentage(0.81, 0.622, 0.025, 0.02); // Position (100, 200)
-          Button Button_3107 = createButtonWithPercentage(0.75, 0.622, 0.025, 0.02); // Position (100, 200)
-          Button Button_3105 = createButtonWithPercentage(0.7, 0.622, 0.02, 0.02); // Position (100, 200)
-          Button Button_3103 = createButtonWithPercentage(0.656, 0.622, 0.018, 0.02); // Position (100, 200)
-          Button Button_3101 = createButtonWithPercentage(0.616, 0.622, 0.018, 0.02); // Position (100, 200)
-
-          // Epi 2
-          Button Button_2109 = createButtonWithPercentage(0.81, 0.622, 0.025, 0.02); // Position (100, 200)
-          Button Button_2107 = createButtonWithPercentage(0.75, 0.622, 0.025, 0.02); // Position (100, 200)
-          Button Button_2105 = createButtonWithPercentage(0.7, 0.622, 0.02, 0.02); // Position (100, 200)
-          Button Button_2103 = createButtonWithPercentage(0.656, 0.622, 0.018, 0.02); // Position (100, 200)
-          Button Button_2101 = createButtonWithPercentage(0.616, 0.622, 0.018, 0.02); // Position (100, 200)
-
-          // Epi 1
-          Button Button_1109 = createButtonWithPercentage(0.81, 0.84, 0.025, 0.02); // Position (100, 200)
-          Button Button_1107 = createButtonWithPercentage(0.75, 0.84, 0.025, 0.02); // Position (100, 200)
-          Button Button_1105 = createButtonWithPercentage(0.7, 0.84, 0.02, 0.02); // Position (100, 200)
-          Button Button_1103 = createButtonWithPercentage(0.656, 0.84, 0.018, 0.02); // Position (100, 200)
-          Button Button_1101 = createButtonWithPercentage(0.616, 0.84, 0.018, 0.02); // Position (100, 200)
-
-
-          break;
-
-        case 2:
-          // Map 2 : Un seul bouton
-          //Button Button_1001 = createButton(100, 200); // Position (100, 200)
-          break;
-
-        case 3:
-          // Map 2 : Un seul bouton
-          //Button Button_1001 = createButton(100, 200); // Position (100, 200)
-          break;
-
-        case 4:
-          // Map 2 : Un seul bouton
-          //Button Button_1001 = createButton(100, 200); // Position (100, 200)
-          break;
-
-        default:
-          break;
-      }
-
-      // Associez les boutons à la map correspondante
-      mapButtons.put(i, buttons);
-    }
-  }
-
-  // Méthode utilitaire pour créer un bouton avec position et taille (optionnelle)
-  /*private Button createButton(double x, double y) {
-    // Appel de la version avec tailles par défaut si les dimensions ne sont pas spécifiées
-    return createButton(x, y, 25, 25); // Taille par défaut : (25, 25)
-  }*/
-
-  private Button createButtonWithPercentage(double xPercent, double yPercent, double widthPercent, double heightPercent) {
-    Button button = new Button(this);
-
-    // Convertir les pourcentages en pixels en fonction de la taille de l'écran
-    int screenWidth = getScreenWidth();
-    int screenHeight = getScreenHeight();
-
-    int x = (int) (screenWidth * xPercent);
-    int y = (int) (screenHeight * yPercent);
-    int width = (int) (screenWidth * widthPercent);
-    int height = (int) (screenHeight * heightPercent);
-
-    // Appliquer les dimensions et position au bouton
-    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-    params.leftMargin = x;
-    params.topMargin = y;
-    button.setLayoutParams(params);
-
-    button.setBackgroundColor(Color.GREEN); // Couleur initiale
-    button.setEnabled(false); // Bouton non cliquable
-    // Positionner le bouton
-    //RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) button.getLayoutParams();
-
-    relativeLayout.addView(button);
-    //button.setVisibility(View.VISIBLE);
-    return button;
-
-    //return button;
-  }
-  private int getScreenWidth() {
-    return getResources().getDisplayMetrics().widthPixels;
-  }
-
-  private int getScreenHeight() {
-    return getResources().getDisplayMetrics().heightPixels;
-  }
-
-
-/*
-  private Button createButton(int x, int y, int width, int height) {
-    Button button = new Button(this); // Remplacez 'this' par le contexte si nécessaire
-    button.setX(x);
-    button.setY(y);
-    button.setWidth(width);
-    button.setHeight(height);
-    button.setBackgroundColor(Color.GREEN); // Couleur initiale
-    button.setEnabled(false); // Bouton non cliquable
-    // Positionner le bouton
-    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) button.getLayoutParams();
-
-    relativeLayout.addView(button);
-    return button;
-  }*/
-  /*private Button createButton(int x, int y) {
-    Button button = new Button(this);
-
-    // Définir des propriétés de base
-    button.setLayoutParams(new RelativeLayout.LayoutParams(50, 50)); // Taille du bouton
-    button.setBackgroundColor(Color.GREEN); // Couleur initiale
-    button.setEnabled(false); // Bouton non cliquable
-
-    // Positionner le bouton
-    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) button.getLayoutParams();
-    params.leftMargin = x; // Position X
-    params.topMargin = y; // Position Y
-    relativeLayout.addView(button);
-
-    return button;
-  }*/
-
-
   private void updateMap() {
     // Mettre à jour l'image de fond
     backgroundImage.setImageResource(imageResources[currentIndex]);
 
-
-    // MARCHE PAS A L UPDATE CAR .VALUES EST VIDE
-
-    // Masquer tous les boutons
-    for (ArrayList<Button> buttons : mapButtons.values()) {
-      for (Button button : buttons) {
-        button.setVisibility(View.GONE);
-      }
-    }
-
-    // Afficher les boutons de la map actuelle si disponibles
-    ArrayList<Button> currentButtons = mapButtons.get(currentIndex);
-    if (currentButtons != null) {
-      for (Button button : currentButtons) {
-        button.setVisibility(View.VISIBLE);
-      }
-    } else {
-      Log.w("UpdateMap", "Aucun bouton associé à la map : " + currentIndex);
-    }
   }
 
-/*
-  private void updateMap() {
-    // Mettre à jour l'image de fond
-    backgroundImage.setImageResource(imageResources[currentIndex]);
 
-    // Masquer tous les boutons
-    for (ArrayList<Button> buttons : mapButtons.values()) {
-      for (Button button : buttons) {
-        button.setVisibility(View.GONE);
-      }
-    }
-
-    // Afficher les boutons de la map actuelle
-    ArrayList<Button> currentButtons = mapButtons.get(currentIndex);
-    if (currentButtons != null) {
-      for (Button button : currentButtons) {
-        button.setVisibility(View.VISIBLE);
-      }
-    }
-  }*/
-
-
-  public void changeButtonColor(Button button, String color) {
-    switch (color.toLowerCase()) {
-      case "green":
-        button.setBackgroundColor(Color.GREEN);
-        break;
-      case "red":
-        button.setBackgroundColor(Color.RED);
-        break;
-      case "orange":
-        button.setBackgroundColor(Color.parseColor("#FFA500"));
-        break;
-    }
-  }
 }

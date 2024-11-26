@@ -19,7 +19,7 @@ public class PushListInDatabase {
             // Vous pouvez utiliser des classes FirebaseDatabase ou FirebaseFirestore pour faciliter la communication avec Firebase
 
             //Verification de la salle:
-            if (salle.getNum().length() <= MAX_LENGTH && salle.getState().ordinal() > Status.FREE.ordinal())
+            if ((salle.getNum().length() <= MAX_LENGTH) && (salle.getState().ordinal() > Status.FREE.ordinal()))
                 push_room(salle);
         }
     }

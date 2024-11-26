@@ -40,7 +40,7 @@ public class Salle {
     }
 
     public int getEtage(){
-        return ((int)num.charAt(1)) - '0';
+        return ((int)num.charAt(1));
     }
 
     public void setPos(int[] pos) {
