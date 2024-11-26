@@ -1,6 +1,7 @@
 package github.yvesbenabou.firebase;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -19,14 +20,14 @@ import java.util.TimeZone;
 
 public class CalendarFetcher {
 
-    private static MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
+    public static MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
     private static final String TAG = "CalendarFetcher";
 
     private static void checkNumeroSalleEtSetRooms(String location, Date end) {
         location = location.replaceAll("[^0-9]", "");
 
         if (!rooms.containsSalle(location)) {
-            rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, " ",new int[]{0, 0}));//libre par défaut
+            rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, " ", null));//libre par défaut
         }
     }
 
@@ -93,5 +94,57 @@ public class CalendarFetcher {
         } catch (Exception e) {
             Log.e(TAG, "Erreur lors du téléchargement ou de l'analyse du fichier .ics", e);
         }
+    }
+
+    public static void show() {
+        CalendarFetcher.rooms.getSalle("1101").show();
+        CalendarFetcher.rooms.getSalle("1103").show();
+        CalendarFetcher.rooms.getSalle("1105").show();
+        CalendarFetcher.rooms.getSalle("1107").show();
+
+        CalendarFetcher.rooms.getSalle("2101").show();
+        CalendarFetcher.rooms.getSalle("2103").show();
+        CalendarFetcher.rooms.getSalle("2105").show();
+        CalendarFetcher.rooms.getSalle("2107").show();
+
+        CalendarFetcher.rooms.getSalle("3101").show();
+        CalendarFetcher.rooms.getSalle("3103").show();
+        CalendarFetcher.rooms.getSalle("3105").show();
+        CalendarFetcher.rooms.getSalle("3107").show();
+        CalendarFetcher.rooms.getSalle("3109").show();
+
+        CalendarFetcher.rooms.getSalle("4105").show();
+        CalendarFetcher.rooms.getSalle("4109").show();
+
+        CalendarFetcher.rooms.getSalle("5101").show();
+        CalendarFetcher.rooms.getSalle("5103").show();
+        CalendarFetcher.rooms.getSalle("5105").show();
+        CalendarFetcher.rooms.getSalle("5107").show();
+    }
+    
+    public static void hide() {
+        CalendarFetcher.rooms.getSalle("1101").hide();
+        CalendarFetcher.rooms.getSalle("1103").hide();
+        CalendarFetcher.rooms.getSalle("1105").hide();
+        CalendarFetcher.rooms.getSalle("1107").hide();
+
+        CalendarFetcher.rooms.getSalle("2101").hide();
+        CalendarFetcher.rooms.getSalle("2103").hide();
+        CalendarFetcher.rooms.getSalle("2105").hide();
+        CalendarFetcher.rooms.getSalle("2107").hide();
+
+        CalendarFetcher.rooms.getSalle("3101").hide();
+        CalendarFetcher.rooms.getSalle("3103").hide();
+        CalendarFetcher.rooms.getSalle("3105").hide();
+        CalendarFetcher.rooms.getSalle("3107").hide();
+        CalendarFetcher.rooms.getSalle("3109").hide();
+
+        CalendarFetcher.rooms.getSalle("4105").hide();
+        CalendarFetcher.rooms.getSalle("4109").hide();
+
+        CalendarFetcher.rooms.getSalle("5101").hide();
+        CalendarFetcher.rooms.getSalle("5103").hide();
+        CalendarFetcher.rooms.getSalle("5105").hide();
+        CalendarFetcher.rooms.getSalle("5107").hide();
     }
 }

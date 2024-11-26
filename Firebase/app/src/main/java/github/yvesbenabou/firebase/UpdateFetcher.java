@@ -201,6 +201,11 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                 });
             }
 
+            if (UpdateFetcher.b_LiberationTime || !UpdateFetcher.b_LiberationDate) { //raffraichir la base avec une mise à jour d'ADE
+                LiberationDate.setValue(date);
+                LiberationTime.setValue(time);
+            }
+
             if (UpdateFetcher.b_ADETime || !UpdateFetcher.b_ADEDate) { //raffraichir la base avec une mise à jour d'ADE
                 MainActivity.ADE_refresh();
                 ADEDate.setValue(date);
@@ -208,13 +213,8 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                 else ADETime.setValue(hour + ":00");
             }
 
-            if (UpdateFetcher.b_LiberationTime || !UpdateFetcher.b_LiberationDate) { //raffraichir la base avec une mise à jour d'ADE
-                LiberationDate.setValue(date);
-                LiberationTime.setValue(time);
-            }
-
             try {
-                Thread.sleep(10000);  // Pause de 10 secondes
+                Thread.sleep(15000);  // Pause de 15 secondes
             } catch (InterruptedException e) {}
 
         }

@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity{
             // On Click
             // Write data to Firebase Database
             MainActivity.this.db.show();
+            CalendarFetcher.hide();
         }
     });
 
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity{
             crb.take_room();
             MainActivity.databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
             crb.hide();
+            CalendarFetcher.show();
         }
     });
 
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity{
       public void onClick(View view) {
         // On Click
         cb.hide();
+        CalendarFetcher.show();
       }
     });
 
@@ -198,12 +201,37 @@ public class MainActivity extends AppCompatActivity{
       public void onClick(View v) {
         // Afficher l'image
         infoImage.setVisibility(View.VISIBLE);
+        CalendarFetcher.hide();
       }
     });
 
     // Flo images svg zoom
     backgroundImage = findViewById(R.id.backgroundImage);
     backgroundImage.setImageResource(R.drawable.school_map1);
+
+    CalendarFetcher.rooms.setSalle(new Salle("1101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1101)));
+    CalendarFetcher.rooms.setSalle(new Salle("1103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1103)));
+    CalendarFetcher.rooms.setSalle(new Salle("1105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1105)));
+    CalendarFetcher.rooms.setSalle(new Salle("1107", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1107)));
+
+    CalendarFetcher.rooms.setSalle(new Salle("2101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2101)));
+    CalendarFetcher.rooms.setSalle(new Salle("2103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2103)));
+    CalendarFetcher.rooms.setSalle(new Salle("2105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2105)));
+    CalendarFetcher.rooms.setSalle(new Salle("2107", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2107)));
+
+    CalendarFetcher.rooms.setSalle(new Salle("3101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3101)));
+    CalendarFetcher.rooms.setSalle(new Salle("3103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3103)));
+    CalendarFetcher.rooms.setSalle(new Salle("3105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3105)));
+    CalendarFetcher.rooms.setSalle(new Salle("3107", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3107)));
+    CalendarFetcher.rooms.setSalle(new Salle("3109", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3109)));
+
+    CalendarFetcher.rooms.setSalle(new Salle("4105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4105)));
+    CalendarFetcher.rooms.setSalle(new Salle("4109", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4109)));
+
+    CalendarFetcher.rooms.setSalle(new Salle("5101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5101)));
+    CalendarFetcher.rooms.setSalle(new Salle("5103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5103)));
+    CalendarFetcher.rooms.setSalle(new Salle("5105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5105)));
+    CalendarFetcher.rooms.setSalle(new Salle("5107", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5107)));
 
     ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
     selectedTimeTextView = findViewById(R.id.selected_time_textview);
@@ -328,6 +356,7 @@ public class MainActivity extends AppCompatActivity{
         if (touchX < imageLeft || touchX > imageRight ||
                 touchY < imageTop || touchY > imageBottom) {
           infoImage.setVisibility(View.GONE);
+          if(takeroombubble.getVisibility() == View.GONE) CalendarFetcher.show();
         }
 
         takeroombubble.getLocationInWindow(infoCoords);
@@ -340,6 +369,7 @@ public class MainActivity extends AppCompatActivity{
         if (touchX < imageLeft || touchX > imageRight ||
                 touchY < imageTop || touchY > imageBottom) {
           cb.hide();
+          CalendarFetcher.show();
         }
       }
     }
