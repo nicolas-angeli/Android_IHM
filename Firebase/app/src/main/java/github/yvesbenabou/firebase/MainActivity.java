@@ -239,13 +239,13 @@ public class MainActivity extends AppCompatActivity{
         }
 
         // Vérifie que la chaîne est suffisamment longue
-        if (salle.length() < 4) {
+        if (salle.length() < 3) {
           Log.d("Firebase", "Nom de salle trop court.");
           return; // La salle doit être au moins de 4 caractères (comme 1003)
-        }
+        } else if (salle.length() == 3) salle = "0" + salle;
 
         // Extraire l'étage à partir du premier caractère
-        String etage = "0"; // Étages comme dans votre exemple
+        String etage = String.valueOf(salle.charAt(1));
         String salleComplete = salle;
 
         // Référence Firebase
