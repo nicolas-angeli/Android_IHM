@@ -18,6 +18,10 @@ public class Salle {
         return end;
     }
 
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
     // Getters et Setters
     public String getNum() {
         return this.num;

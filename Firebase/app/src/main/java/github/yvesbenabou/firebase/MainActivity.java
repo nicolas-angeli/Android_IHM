@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity{
   }
 
   public static void ADE_refresh() {
-      new CalendarFetcher().execute();
+      CalendarFetcher.updateRoomStates();
   }
 
   private void showTimePickerDialog() {

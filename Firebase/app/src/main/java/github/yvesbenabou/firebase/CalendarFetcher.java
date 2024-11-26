@@ -17,29 +17,16 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 
-public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
+public class CalendarFetcher {
 
     private static MainActivity.Liste_Salles rooms = new MainActivity.Liste_Salles();
     private static final String TAG = "CalendarFetcher";
 
-    public CalendarFetcher() {
-
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
-        updateRoomStates();
-        return null;
-    }
-
     private static void checkNumeroSalleEtSetRooms(String location, Date end) {
         location = location.replaceAll("[^0-9]", "");
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-        format.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
-        String str = format.format(end);
 
         if (!rooms.containsSalle(location)) {
-            rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, str,new int[]{0, 0}));//libre par défaut
+            rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, " ",new int[]{0, 0}));//libre par défaut
         }
     }
 
@@ -85,8 +72,12 @@ public class CalendarFetcher extends AsyncTask<Void, Void, Void> {
                             // Vérifiez si l'événement correspond à la salle dans la HashMap
                             if (location.equals(numSalle)) {
                                 // Mettre à jour l'état de la salle avec le résumé de l'événement
-                                rooms.getSalle(numSalle).setState(github.yvesbenabou.firebase.Status.CLASS);
-                                Log.d(TAG, "Salle : " + numSalle + " - État : " + rooms.getSalle(numSalle).getState());
+                                Salle room = rooms.getSalle(numSalle);
+                                room.setState(github.yvesbenabou.firebase.Status.CLASS);
+                                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                                format.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+                                String str = format.format(end);
+                                room.setEnd(str);
                             }
                         }
                     }
