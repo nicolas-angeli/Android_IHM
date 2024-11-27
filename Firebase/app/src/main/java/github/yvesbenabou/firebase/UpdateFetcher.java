@@ -52,86 +52,93 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
 
             //On scrute la base de données afin de déterminer si elle a été mise à jour aujourd'hui
 
-            ADEDate.addListenerForSingleValueEvent(new ValueEventListener() {
+            Thread ThreadADEDate = new Thread(new Runnable() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        try {
-                            String ADE_date = dataSnapshot.getValue(String.class);
+                public void run() {
+                    // Mettre la priorité du thread en arrière-plan plus faible
+                    Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+                    MainActivity.databaseRef.child("ADEDate").get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            String ADE_date = task.getResult().getValue(String.class);
                             UpdateFetcher.b_ADEDate = ADE_date.equals(date);
-                        } catch (ClassCastException e) {}
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("Firebase", "Erreur : " + databaseError.getMessage());
+                        } else {
+                            Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                        }
+                    });
                 }
             });
 
-            LiberationDate.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        try {
-                            String ADE_date = dataSnapshot.getValue(String.class);
-                            UpdateFetcher.b_LiberationDate = ADE_date.equals(date);
-                        } catch (ClassCastException e) {}
-                    }
-                }
+            ThreadADEDate.start();
 
+            Thread ThreadLibDate = new Thread(new Runnable() {
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("Firebase", "Erreur : " + databaseError.getMessage());
+                public void run() {
+                    // Mettre la priorité du thread en arrière-plan plus faible
+                    Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+                    MainActivity.databaseRef.child("LiberationDate").get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            String Lib_date = task.getResult().getValue(String.class);
+                            UpdateFetcher.b_LiberationDate = Lib_date.equals(date);
+                        } else {
+                            Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                        }
+                    });
                 }
             });
+
+            ThreadLibDate.start();
+            try {
+                ThreadADEDate.join();
+                ThreadLibDate.join();
+            } catch (InterruptedException e) {  Log.d("TAG", "Can't join threads"); }
 
             //On scrute les dernières heures de mises à jour
 
             if(UpdateFetcher.b_ADEDate && UpdateFetcher.b_LiberationDate) {
-                ADETime.addListenerForSingleValueEvent(new ValueEventListener() {
+                Thread ThreadADETime = new Thread(new Runnable() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            try {
-                                String ADE_time = dataSnapshot.getValue(String.class);
+                    public void run() {
+                        // Mettre la priorité du thread en arrière-plan plus faible
+                        Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+                        MainActivity.databaseRef.child("ADETime").get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult().exists()) {
+                                String ADE_time = task.getResult().getValue(String.class);
 
                                 int update_hour = Integer.parseInt(ADE_time.substring(0, 2));
                                 int update_minute = Integer.parseInt(ADE_time.substring(3, 5));
 
                                 UpdateFetcher.b_ADETime = (hour > update_hour  && minute > 0 || (hour == update_hour && minute > update_minute + 30));
-                            } catch (ClassCastException e) {
+                            } else {
+                                Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
                             }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e("Firebase", "Erreur : " + databaseError.getMessage());
+                        });
                     }
                 });
 
-                LiberationTime.addListenerForSingleValueEvent(new ValueEventListener() {
+                Thread ThreadLibTime = new Thread(new Runnable() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            try {
-                                String Liberation_time = dataSnapshot.getValue(String.class);
+                    public void run() {
+                        // Mettre la priorité du thread en arrière-plan plus faible
+                        Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+                        MainActivity.databaseRef.child("LiberationTime").get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult().exists()) {
+                                String Liberation_time = task.getResult().getValue(String.class);
 
                                 int update_hour = Integer.parseInt(Liberation_time.substring(0, 2));
                                 int update_minute = Integer.parseInt(Liberation_time.substring(3, 5));
 
-                                UpdateFetcher.b_LiberationTime = (hour > update_hour || (hour == update_hour && minute > update_minute));
-                            } catch (ClassCastException e) {
+                                UpdateFetcher.b_LiberationTime = (hour > update_hour  && minute > 0 || (hour == update_hour && minute > update_minute + 30));
+                            } else {
+                                Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
                             }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e("Firebase", "Erreur : " + databaseError.getMessage());
+                        });
                     }
                 });
+
+                try {
+                    ThreadADETime.join();
+                    ThreadLibTime.join();
+                } catch (InterruptedException e) {  Log.d("TAG", "Can't join threads"); }
             }
 
             //nos variables sont à jour, on peut faire les mises à jour nécessaires
