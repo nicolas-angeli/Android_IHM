@@ -3,6 +3,7 @@ package github.yvesbenabou.firebase;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.DatabaseError;
 import java.text.SimpleDateFormat;
@@ -57,14 +58,18 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                 public void run() {
                     // Mettre la priorité du thread en arrière-plan plus faible
                     Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-                    MainActivity.databaseRef.child("ADEDate").get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && task.getResult().exists()) {
-                            String ADE_date = task.getResult().getValue(String.class);
-                            UpdateFetcher.b_ADEDate = ADE_date.equals(date);
-                        } else {
-                            Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
-                        }
-                    });
+                    try {
+                        Tasks.await(
+                                MainActivity.databaseRef.child("ADEDate").get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful() && task.getResult().exists()) {
+                                        String ADE_date = task.getResult().getValue(String.class);
+                                        UpdateFetcher.b_ADEDate = ADE_date.equals(date);
+                                    } else {
+                                        Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                                    }
+                                })
+                        );
+                    } catch (Exception e) { }
                 }
             });
 
@@ -75,18 +80,23 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                 public void run() {
                     // Mettre la priorité du thread en arrière-plan plus faible
                     Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-                    MainActivity.databaseRef.child("LiberationDate").get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && task.getResult().exists()) {
-                            String Lib_date = task.getResult().getValue(String.class);
-                            UpdateFetcher.b_LiberationDate = Lib_date.equals(date);
-                        } else {
-                            Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
-                        }
-                    });
+                    try {
+                        Tasks.await(
+                            MainActivity.databaseRef.child("LiberationDate").get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful() && task.getResult().exists()) {
+                                    String Lib_date = task.getResult().getValue(String.class);
+                                    UpdateFetcher.b_LiberationDate = Lib_date.equals(date);
+                                } else {
+                                    Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                                }
+                            })
+                        );
+                    } catch (Exception e) { }
                 }
             });
 
             ThreadLibDate.start();
+
             try {
                 ThreadADEDate.join();
                 ThreadLibDate.join();
@@ -100,40 +110,52 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                     public void run() {
                         // Mettre la priorité du thread en arrière-plan plus faible
                         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-                        MainActivity.databaseRef.child("ADETime").get().addOnCompleteListener(task -> {
-                            if (task.isSuccessful() && task.getResult().exists()) {
-                                String ADE_time = task.getResult().getValue(String.class);
+                        try {
+                            Tasks.await(
+                                MainActivity.databaseRef.child("ADETime").get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful() && task.getResult().exists()) {
+                                        String ADE_time = task.getResult().getValue(String.class);
 
-                                int update_hour = Integer.parseInt(ADE_time.substring(0, 2));
-                                int update_minute = Integer.parseInt(ADE_time.substring(3, 5));
+                                        int update_hour = Integer.parseInt(ADE_time.substring(0, 2));
+                                        int update_minute = Integer.parseInt(ADE_time.substring(3, 5));
 
-                                UpdateFetcher.b_ADETime = (hour > update_hour  && minute > 0 || (hour == update_hour && minute > update_minute + 30));
-                            } else {
-                                Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
-                            }
-                        });
+                                        UpdateFetcher.b_ADETime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
+                                    } else {
+                                        Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                                    }
+                                })
+                            );
+                        } catch (Exception e) { }
                     }
                 });
+
+                ThreadADETime.start();
 
                 Thread ThreadLibTime = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         // Mettre la priorité du thread en arrière-plan plus faible
                         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-                        MainActivity.databaseRef.child("LiberationTime").get().addOnCompleteListener(task -> {
-                            if (task.isSuccessful() && task.getResult().exists()) {
-                                String Liberation_time = task.getResult().getValue(String.class);
+                        try {
+                            Tasks.await(
+                                MainActivity.databaseRef.child("LiberationTime").get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful() && task.getResult().exists()) {
+                                        String Liberation_time = task.getResult().getValue(String.class);
 
-                                int update_hour = Integer.parseInt(Liberation_time.substring(0, 2));
-                                int update_minute = Integer.parseInt(Liberation_time.substring(3, 5));
+                                        int update_hour = Integer.parseInt(Liberation_time.substring(0, 2));
+                                        int update_minute = Integer.parseInt(Liberation_time.substring(3, 5));
 
-                                UpdateFetcher.b_LiberationTime = (hour > update_hour  && minute > 0 || (hour == update_hour && minute > update_minute + 30));
-                            } else {
-                                Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
-                            }
-                        });
+                                        UpdateFetcher.b_LiberationTime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
+                                    } else {
+                                        Log.d("TAG", "Une erreur est survenue à l'acquisition de la date de libération des créneaux.");
+                                    }
+                                })
+                            );
+                        } catch (Exception e) { }
                     }
                 });
+
+                ThreadLibTime.start();
 
                 try {
                     ThreadADETime.join();
@@ -146,66 +168,58 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
             DatabaseReference reservationsRef = MainActivity.databaseRef.child("Réservations").child("étages");
             DatabaseReference salles = MainActivity.databaseRef.child("étages");
 
-            if (!UpdateFetcher.b_ADEDate && !UpdateFetcher.b_LiberationDate) {///n'a pas été mise à jour aujourd'hui
+            if (UpdateFetcher.b_ADEDate==false && UpdateFetcher.b_LiberationDate==false) {///n'a pas été mise à jour aujourd'hui
                 // Ajouter un listener pour récupérer les données
-                reservationsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Parcourir tous les étages
-                        for (DataSnapshot etageSnapshot : dataSnapshot.getChildren()) {
-                            // Parcourir les réservations sous chaque étage
-                            for (DataSnapshot reservationSnapshot : etageSnapshot.getChildren()) {
-                                // Récupérer la clé (id de la réservation)
-                                String reservationKey = reservationSnapshot.getKey();
+                try {
+                    Tasks.await(reservationsRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            for (DataSnapshot etageSnapshot : task.getResult().getChildren()) {
+                                // Parcourir les réservations sous chaque étage
+                                for (DataSnapshot reservationSnapshot : etageSnapshot.getChildren()) {
+                                    // Récupérer la clé (id de la réservation)
+                                    String reservationKey = reservationSnapshot.getKey();
 
-                                salles.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(github.yvesbenabou.firebase.Status.FREE.ordinal());
-                                reservationsRef.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(" ");
+                                    salles.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(github.yvesbenabou.firebase.Status.FREE.ordinal());
+                                    reservationsRef.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(" ");
+                                }
                             }
+                        } else {
+                            Log.d("TAG", "Une erreur est survenue à l'acquisition des données.");
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // En cas d'erreur lors de la récupération des données
-                        Log.e("Firebase", "Erreur lors de la lecture des données", databaseError.toException());
-                    }
-                });
+                    }));
+                } catch (Exception e) { }
             }
 
             if (UpdateFetcher.b_LiberationTime) { //vérifier les créneaux
                 // Ajouter un listener pour récupérer les données
-                reservationsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Parcourir tous les étages
-                        for (DataSnapshot etageSnapshot : dataSnapshot.getChildren()) {
-                            // Parcourir les réservations sous chaque étage
-                            for (DataSnapshot reservationSnapshot : etageSnapshot.getChildren()) {
-                                // Récupérer la clé (id de la réservation)
-                                String reservationKey = reservationSnapshot.getKey();
-                                String reservationValue = reservationSnapshot.getValue(String.class);
+                try {
+                    Tasks.await(reservationsRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            for (DataSnapshot etageSnapshot : task.getResult().getChildren()) {
+                                // Parcourir les réservations sous chaque étage
+                                for (DataSnapshot reservationSnapshot : etageSnapshot.getChildren()) {
+                                    // Récupérer la clé (id de la réservation)
+                                    String reservationKey = reservationSnapshot.getKey();
+                                    String reservationValue = reservationSnapshot.getValue(String.class);
 
-                                if (reservationValue.length() > 1) {
-                                    try {
-                                        int hour_deadline = Integer.parseInt(reservationValue.substring(0, 2));
-                                        int minute_deadline = Integer.parseInt(reservationValue.substring(3, 5));
+                                    if (reservationValue.length() > 1) {
+                                        try {
+                                            int hour_deadline = Integer.parseInt(reservationValue.substring(0, 2));
+                                            int minute_deadline = Integer.parseInt(reservationValue.substring(3, 5));
 
-                                        if (hour > hour_deadline || (hour == hour_deadline && minute > minute_deadline)) {
-                                            salles.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(github.yvesbenabou.firebase.Status.FREE.ordinal());
-                                            reservationsRef.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(" ");
-                                        }
-                                    } catch (ClassCastException e) {}
+                                            if (hour > hour_deadline || (hour == hour_deadline && minute > minute_deadline)) {
+                                                salles.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(github.yvesbenabou.firebase.Status.FREE.ordinal());
+                                                reservationsRef.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(" ");
+                                            }
+                                        } catch (ClassCastException e) {}
+                                    }
                                 }
                             }
+                        } else {
+                            Log.d("TAG", "Une erreur est survenue à l'acquisition des données.");
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // En cas d'erreur lors de la récupération des données
-                        Log.e("Firebase", "Erreur lors de la lecture des données", databaseError.toException());
-                    }
-                });
+                    }));
+                } catch (Exception e) { }
             }
 
             if (UpdateFetcher.b_LiberationTime || !UpdateFetcher.b_LiberationDate) { //raffraichir la base avec une mise à jour d'ADE
