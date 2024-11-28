@@ -1,7 +1,10 @@
 package github.yvesbenabou.firebase;
 
+import android.graphics.Color;
 import android.widget.Button;
 import android.view.View;
+
+import androidx.annotation.ColorInt;
 
 public class Salle {
     private  String num;   // Numéro de la salle
@@ -18,7 +21,7 @@ public class Salle {
     }
 
     public void show() {
-     // Code pour afficher la salle sur l'écran
+        // Code pour afficher la salle sur l'écran
         this.button.setVisibility(View.VISIBLE);
     }
 
@@ -50,8 +53,16 @@ public class Salle {
 
     public void setState(Status state) {
         this.state = state;
+        if(state == Status.CLASS){
+            try {
+                this.button.setBackgroundColor(Color.parseColor("#FF0000"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            this.button.setBackgroundColor(Color.parseColor("#0000FF"));;
+        }
     }
-
     public int getEtage(){
         return ((int)num.charAt(1));
     }

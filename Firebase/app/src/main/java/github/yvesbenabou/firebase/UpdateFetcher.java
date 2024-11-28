@@ -82,14 +82,14 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                     Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
                     try {
                         Tasks.await(
-                            MainActivity.databaseRef.child("LiberationDate").get().addOnCompleteListener(task -> {
-                                if (task.isSuccessful() && task.getResult().exists()) {
-                                    String Lib_date = task.getResult().getValue(String.class);
-                                    UpdateFetcher.b_LiberationDate = Lib_date.equals(date);
-                                } else {
-                                    Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
-                                }
-                            })
+                                MainActivity.databaseRef.child("LiberationDate").get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful() && task.getResult().exists()) {
+                                        String Lib_date = task.getResult().getValue(String.class);
+                                        UpdateFetcher.b_LiberationDate = Lib_date.equals(date);
+                                    } else {
+                                        Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                                    }
+                                })
                         );
                     } catch (Exception e) { }
                 }
@@ -112,18 +112,18 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
                         try {
                             Tasks.await(
-                                MainActivity.databaseRef.child("ADETime").get().addOnCompleteListener(task -> {
-                                    if (task.isSuccessful() && task.getResult().exists()) {
-                                        String ADE_time = task.getResult().getValue(String.class);
+                                    MainActivity.databaseRef.child("ADETime").get().addOnCompleteListener(task -> {
+                                        if (task.isSuccessful() && task.getResult().exists()) {
+                                            String ADE_time = task.getResult().getValue(String.class);
 
-                                        int update_hour = Integer.parseInt(ADE_time.substring(0, 2));
-                                        int update_minute = Integer.parseInt(ADE_time.substring(3, 5));
+                                            int update_hour = Integer.parseInt(ADE_time.substring(0, 2));
+                                            int update_minute = Integer.parseInt(ADE_time.substring(3, 5));
 
-                                        UpdateFetcher.b_ADETime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
-                                    } else {
-                                        Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
-                                    }
-                                })
+                                            UpdateFetcher.b_ADETime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
+                                        } else {
+                                            Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                                        }
+                                    })
                             );
                         } catch (Exception e) { }
                     }
@@ -138,18 +138,18 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                         Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
                         try {
                             Tasks.await(
-                                MainActivity.databaseRef.child("LiberationTime").get().addOnCompleteListener(task -> {
-                                    if (task.isSuccessful() && task.getResult().exists()) {
-                                        String Liberation_time = task.getResult().getValue(String.class);
+                                    MainActivity.databaseRef.child("LiberationTime").get().addOnCompleteListener(task -> {
+                                        if (task.isSuccessful() && task.getResult().exists()) {
+                                            String Liberation_time = task.getResult().getValue(String.class);
 
-                                        int update_hour = Integer.parseInt(Liberation_time.substring(0, 2));
-                                        int update_minute = Integer.parseInt(Liberation_time.substring(3, 5));
+                                            int update_hour = Integer.parseInt(Liberation_time.substring(0, 2));
+                                            int update_minute = Integer.parseInt(Liberation_time.substring(3, 5));
 
-                                        UpdateFetcher.b_LiberationTime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
-                                    } else {
-                                        Log.d("TAG", "Une erreur est survenue à l'acquisition de la date de libération des créneaux.");
-                                    }
-                                })
+                                            UpdateFetcher.b_LiberationTime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
+                                        } else {
+                                            Log.d("TAG", "Une erreur est survenue à l'acquisition de la date de libération des créneaux.");
+                                        }
+                                    })
                             );
                         } catch (Exception e) { }
                     }
@@ -242,6 +242,3 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
         return null;
     }
 }
-
-
-
