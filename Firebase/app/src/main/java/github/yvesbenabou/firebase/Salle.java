@@ -55,12 +55,18 @@ public class Salle {
         this.state = state;
         if(state == Status.CLASS){
             try {
-                this.button.setBackgroundColor(Color.parseColor("#FF0000"));
+                //this.button.setBackgroundColor(Color.parseColor("#FF0000"));
+                this.button.setBackgroundColor(ConfirmRoomButton.red);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {
-            this.button.setBackgroundColor(Color.parseColor("#0000FF"));;
+        } else if (state == Status.RESERVED){
+            //this.button.setBackgroundColor(Color.parseColor("#FFFF00"));
+            this.button.setBackgroundColor(Color.YELLOW);
+        }
+        else {
+            this.button.setBackgroundColor(ConfirmRoomButton.green);;
+            //this.button.setBackgroundColor(Color.GREEN);
         }
     }
     public int getEtage(){
