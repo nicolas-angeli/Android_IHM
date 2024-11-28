@@ -424,19 +424,6 @@
         tools:visibility="gone"/>
 
     <github.yvesbenabou.firebase.InvisibleButton
-        android:id="@+id/s0115"
-        android:layout_width="65px"
-        android:layout_height="64px"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="297px"
-        android:layout_marginTop="1179px"
-        android:background="#0ECE0E"
-        android:elevation="4dp"
-        android:clickable="false"
-        tools:visibility="gone"/>
-
-    <github.yvesbenabou.firebase.InvisibleButton
         android:id="@+id/s5201"
         android:layout_width="100px"
         android:layout_height="52px"
@@ -1133,8 +1120,7 @@
 
     <!-- Fin étages -->
 
-
-    <github.yvesbenabou.firebase.InvisibleButton
+    <Button
         android:id="@+id/slideButton"
         android:layout_width="58dp"
         android:layout_height="58dp"
@@ -1144,10 +1130,9 @@
         android:layout_margin="16dp"
         android:background="@drawable/button_with_border"
         android:textColor="#000000"
-        android:clickable="false"
         android:elevation="4dp"/>
 
-    <github.yvesbenabou.firebase.InvisibleButton
+    <Button
         android:id="@+id/helpButton"
         android:layout_width="58dp"
         android:layout_height="58dp"
@@ -1156,10 +1141,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_margin="16dp"
-        android:background="@drawable/
-        android:button_with_border"clickable="false"
+        android:background="@drawable/button_with_border"
         android:textColor="#000000"
-        android:elevation="4dp" />
+        android:elevation="4dp"/>
 
     <!-- ImageView pour afficher l'image temporaire d'info-->
 
