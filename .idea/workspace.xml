@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78474084-5134-4a3c-9298-7bbc1918f2d0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Firebase/.idea/deploymentTargetSelector.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Firebase/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Firebase/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,12 +25,12 @@
     &quot;assignee&quot;: &quot;nicolas-angeli&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/nicolas-angeli/Android_IHM.git&quot;,
-    &quot;accountId&quot;: &quot;450ac905-658c-4583-b45f-ced070a9eb0a&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/nicolas-angeli/Android_IHM.git",
+    "accountId": "03bb7bf0-3446-43cc-827f-098e2d52bd8b"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -49,7 +48,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "map",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Android_IHM/test/Android_IHM/Firebase"
+    "last_opened_file_path": "D:/_ESIEE/E4/Cours/4E-LE1_IHM/Android_IHM/Firebase"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

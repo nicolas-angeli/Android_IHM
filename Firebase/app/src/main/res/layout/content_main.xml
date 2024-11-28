@@ -430,7 +430,7 @@
         tools:visibility="visible"/>
 
 
-        <Button
+    <Button
         android:id="@+id/s4201"
         android:layout_width="110px"
         android:layout_height="52px"

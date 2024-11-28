@@ -1,6 +1,6 @@
 ext {
- androidGradlePlugin = '7.2.1'
- googleServicesPluginVer = "4.3.3"
+ androidGradlePlugin = '8.6.0'
+ googleServicesPluginVer = '4.3.10'
  compileSdkVer = 30
  kotlinVersion = "1.4.0"
 
