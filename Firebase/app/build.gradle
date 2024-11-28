@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "github.yvesbenabou.firebase"
-        minSdkVersion minSdkVer
-        targetSdkVersion targetSdkVer
+        minSdk 34
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -24,12 +24,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //webview
-    implementation 'androidx.webkit:webkit:1.9.0'
+    implementation 'androidx.webkit:webkit:1.12.1'
 
     implementation "androidx.appcompat:appcompat:$appCompat"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVer"
     implementation "com.google.android.material:material:$supportLibVer"
-    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation platform('com.google.firebase:firebase-bom:33.6.0')
     implementation "com.google.firebase:firebase-database:$firebaseDatabase"
     // Testing-only dependencies
     testImplementation "junit:junit:$junitVer"
@@ -41,7 +41,7 @@ dependencies {
     implementation 'net.sf.biweekly:biweekly:0.6.6'
 
     //WorkManager
-    def work_version = "2.9.1"
+    def work_version = '2.10.0'
 
     // (Java only)
     implementation "androidx.work:work-runtime:$work_version"

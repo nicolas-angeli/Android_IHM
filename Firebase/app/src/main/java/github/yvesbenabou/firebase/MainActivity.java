@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -142,16 +143,22 @@ public class MainActivity extends AppCompatActivity{
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         //txt.setText(dataSnapshot.getValue().toString());
+        for (DataSnapshot etageSnapshot : dataSnapshot.getChildren()) {
+          // Parcourir les réservations sous chaque étage
+          for (DataSnapshot salleSnapshot : etageSnapshot.getChildren()) {
+            // Récupérer la clé (id de la réservation)
+            String salle = salleSnapshot.getKey();
+            String state = salleSnapshot.getValue(String.class);
 
+            CalendarFetcher.rooms.getSalle(salle).setState(Status.values()[Integer.parseInt(state)]);
+          }
+        }
       }
 
-      @Override
       public void onCancelled(DatabaseError databaseError) {
-        // Getting Post failed, log a message
-        Log.w(TAG, "onCancelled", databaseError.toException());
+        Log.e("Firebase", "Erreur : " + databaseError.getMessage());
       }
     });
-
 
     //Flo boutton etage
     backgroundImage = findViewById(R.id.backgroundImage);
@@ -387,16 +394,16 @@ public class MainActivity extends AppCompatActivity{
 
     // Créez et affichez le TimePickerDialog
     TimePickerDialog timePickerDialog = new TimePickerDialog(
-            MainActivity.this,
-            new TimePickerDialog.OnTimeSetListener() {
-              @Override
-              public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                // Récupérez l'heure sélectionnée et l'affichez
-                String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
-                if(MainActivity.this.db.verify(selectedTime))  selectedTimeTextView.setText(selectedTime);
-              }
-            },
-            hour, minute, true  // Le dernier paramètre `true` signifie un format 24h
+MainActivity.this,
+        new TimePickerDialog.OnTimeSetListener() {
+          @Override
+          public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Récupérez l'heure sélectionnée et l'affichez
+            String selectedTime = String.format("%02d:%02d", hourOfDay, minute);
+            if(MainActivity.this.db.verify(selectedTime))  selectedTimeTextView.setText(selectedTime);
+          }
+        },
+        hour, minute, true  // Le dernier paramètre `true` signifie un format 24h
     );
     timePickerDialog.show();
   }
@@ -416,6 +423,7 @@ public class MainActivity extends AppCompatActivity{
     public Salle getSalle(String num) {
       return List.get(num);
     }
+
     public void setSalle(Salle newSalle) {
       List.put(newSalle.getNum(), newSalle);
     }
@@ -430,7 +438,6 @@ public class MainActivity extends AppCompatActivity{
       }
       return false;
     }
-
   }
 
   private void updateMap() {
@@ -438,6 +445,4 @@ public class MainActivity extends AppCompatActivity{
     backgroundImage.setImageResource(imageResources[currentIndex]);
 
   }
-
-
 }
