@@ -79,12 +79,12 @@ public class MainActivity extends AppCompatActivity{
 
 
   @Override protected void onCreate(Bundle savedInstanceState) {
+//    FirebaseApp FIREBASE =  FirebaseApp.initializeApp(this);
     super.onCreate(savedInstanceState);
-    FirebaseApp FIREBASE =  FirebaseApp.initializeApp(this);
 
-    if (FIREBASE == null) {
-      Log.e("FirebaseInit", "FirebaseApp n'a pas pu être initialisé !");
-    }
+//    if (FIREBASE == null) {
+//      Log.e("FirebaseInit", "FirebaseApp n'a pas pu être initialisé !");
+//    }
 
     setContentView(R.layout.activity_main);
     FirebaseDatabase.getInstance().setPersistenceEnabled(true);
