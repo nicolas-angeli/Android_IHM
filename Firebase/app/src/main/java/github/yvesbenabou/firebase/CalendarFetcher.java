@@ -388,4 +388,5 @@ public class CalendarFetcher {
         CalendarFetcher.rooms.getSalle("5005").hide();
         CalendarFetcher.rooms.getSalle("5007").hide();
     }
+    //pour pish
 }

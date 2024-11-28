@@ -24,6 +24,7 @@
         android:src="@drawable/school_map1" />
 
     <!-- ETAGE 4 -->
+    <!-- pour push -->
 
     <Button
         android:id="@+id/s5401"

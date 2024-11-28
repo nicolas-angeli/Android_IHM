@@ -586,6 +586,6 @@ public class MainActivity extends AppCompatActivity{
     backgroundImage.setImageResource(imageResources[currentIndex]);
 
   }*/
-
+/*Pour push*/
 
 }
