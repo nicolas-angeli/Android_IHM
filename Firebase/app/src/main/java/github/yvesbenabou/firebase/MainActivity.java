@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,6 +80,12 @@ public class MainActivity extends AppCompatActivity{
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    FirebaseApp FIREBASE =  FirebaseApp.initializeApp(this);
+
+    if (FIREBASE == null) {
+      Log.e("FirebaseInit", "FirebaseApp n'a pas pu être initialisé !");
+    }
+
     setContentView(R.layout.activity_main);
     FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
