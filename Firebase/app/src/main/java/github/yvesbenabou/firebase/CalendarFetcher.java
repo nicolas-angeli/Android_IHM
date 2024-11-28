@@ -74,7 +74,7 @@ public class CalendarFetcher {
                             if (location.equals(numSalle)) {
                                 // Mettre à jour l'état de la salle avec le résumé de l'événement
                                 Salle room = rooms.getSalle(numSalle);
-                                room.setState(github.yvesbenabou.firebase.Status.CLASS);
+                                if(room != null) room.setState(github.yvesbenabou.firebase.Status.CLASS);
                                 SimpleDateFormat format = new SimpleDateFormat("HH:mm");
                                 format.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
                                 String str = format.format(end);
@@ -97,54 +97,63 @@ public class CalendarFetcher {
     }
 
     public static void show() {
-        CalendarFetcher.rooms.getSalle("1101").show();
-        CalendarFetcher.rooms.getSalle("1103").show();
-        CalendarFetcher.rooms.getSalle("1105").show();
-        CalendarFetcher.rooms.getSalle("1107").show();
+        try {
+            CalendarFetcher.rooms.getSalle("1101").show();
+            CalendarFetcher.rooms.getSalle("1103").show();
+            CalendarFetcher.rooms.getSalle("1105").show();
+            CalendarFetcher.rooms.getSalle("1107").show();
 
-        CalendarFetcher.rooms.getSalle("2101").show();
-        CalendarFetcher.rooms.getSalle("2103").show();
-        CalendarFetcher.rooms.getSalle("2105").show();
-        CalendarFetcher.rooms.getSalle("2107").show();
+            CalendarFetcher.rooms.getSalle("2101").show();
+            CalendarFetcher.rooms.getSalle("2103").show();
+            CalendarFetcher.rooms.getSalle("2105").show();
+            CalendarFetcher.rooms.getSalle("2107").show();
 
-        CalendarFetcher.rooms.getSalle("3101").show();
-        CalendarFetcher.rooms.getSalle("3103").show();
-        CalendarFetcher.rooms.getSalle("3105").show();
-        CalendarFetcher.rooms.getSalle("3107").show();
-        CalendarFetcher.rooms.getSalle("3109").show();
+            CalendarFetcher.rooms.getSalle("3101").show();
+            CalendarFetcher.rooms.getSalle("3103").show();
+            CalendarFetcher.rooms.getSalle("3105").show();
+            CalendarFetcher.rooms.getSalle("3107").show();
+            CalendarFetcher.rooms.getSalle("3109").show();
 
-        CalendarFetcher.rooms.getSalle("4105").show();
-        CalendarFetcher.rooms.getSalle("4109").show();
+            CalendarFetcher.rooms.getSalle("4105").show();
+            CalendarFetcher.rooms.getSalle("4109").show();
 
-        CalendarFetcher.rooms.getSalle("5101").show();
-        CalendarFetcher.rooms.getSalle("5103").show();
-        CalendarFetcher.rooms.getSalle("5105").show();
-        CalendarFetcher.rooms.getSalle("5107").show();
+            CalendarFetcher.rooms.getSalle("5101").show();
+            CalendarFetcher.rooms.getSalle("5103").show();
+            CalendarFetcher.rooms.getSalle("5105").show();
+            CalendarFetcher.rooms.getSalle("5107").show();
+        } catch (Exception e){
+            Log.e(TAG, "Erreur dans show(): " + e.getMessage());
+        }
     }
     
     public static void hide() {
-        CalendarFetcher.rooms.getSalle("1101").hide();
-        CalendarFetcher.rooms.getSalle("1103").hide();
-        CalendarFetcher.rooms.getSalle("1105").hide();
-        CalendarFetcher.rooms.getSalle("1107").hide();
+        try {
+            CalendarFetcher.rooms.getSalle("1101").hide();
+            CalendarFetcher.rooms.getSalle("1103").hide();
+            CalendarFetcher.rooms.getSalle("1105").hide();
+            CalendarFetcher.rooms.getSalle("1107").hide();
 
-        CalendarFetcher.rooms.getSalle("2101").hide();
-        CalendarFetcher.rooms.getSalle("2103").hide();
-        CalendarFetcher.rooms.getSalle("2105").hide();
-        CalendarFetcher.rooms.getSalle("2107").hide();
+            CalendarFetcher.rooms.getSalle("2101").hide();
+            CalendarFetcher.rooms.getSalle("2103").hide();
+            CalendarFetcher.rooms.getSalle("2105").hide();
+            CalendarFetcher.rooms.getSalle("2107").hide();
 
-        CalendarFetcher.rooms.getSalle("3101").hide();
-        CalendarFetcher.rooms.getSalle("3103").hide();
-        CalendarFetcher.rooms.getSalle("3105").hide();
-        CalendarFetcher.rooms.getSalle("3107").hide();
-        CalendarFetcher.rooms.getSalle("3109").hide();
+            CalendarFetcher.rooms.getSalle("3101").hide();
+            CalendarFetcher.rooms.getSalle("3103").hide();
+            CalendarFetcher.rooms.getSalle("3105").hide();
+            CalendarFetcher.rooms.getSalle("3107").hide();
+            CalendarFetcher.rooms.getSalle("3109").hide();
 
-        CalendarFetcher.rooms.getSalle("4105").hide();
-        CalendarFetcher.rooms.getSalle("4109").hide();
+            CalendarFetcher.rooms.getSalle("4105").hide();
+            CalendarFetcher.rooms.getSalle("4109").hide();
 
-        CalendarFetcher.rooms.getSalle("5101").hide();
-        CalendarFetcher.rooms.getSalle("5103").hide();
-        CalendarFetcher.rooms.getSalle("5105").hide();
-        CalendarFetcher.rooms.getSalle("5107").hide();
+            CalendarFetcher.rooms.getSalle("5101").hide();
+            CalendarFetcher.rooms.getSalle("5103").hide();
+            CalendarFetcher.rooms.getSalle("5105").hide();
+            CalendarFetcher.rooms.getSalle("5107").hide();
+        }
+        catch (Exception e){
+            Log.e(TAG, "Erreur dans hide(): " + e.getMessage());
+        }
     }
 }

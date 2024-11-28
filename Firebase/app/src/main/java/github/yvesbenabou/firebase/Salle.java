@@ -7,10 +7,10 @@ public class Salle {
     private  String num;   // Numéro de la salle
     private Status state; // État de la salle
     private String end;
-    private Button button;    // Position de la salle, par exemple (x, y)
+    private RoomButton button;    // Position de la salle, par exemple (x, y)
 
     // Constructeur
-    public Salle(String num, Status state, String end, Button button) {
+    public Salle(String num, Status state, String end, RoomButton button) {
         this.num = num;
         this.state = state;
         this.button = button;;
@@ -50,6 +50,9 @@ public class Salle {
 
     public void setState(Status state) {
         this.state = state;
+        if(state == Status.FREE) this.button.setGreen();
+        else if(state == Status.RESERVED) this.button.setOrange();
+        else this.button.setRed();
     }
 
     public int getEtage(){

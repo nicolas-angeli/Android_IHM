@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Tasks;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity{
     private final String reservation = "Réservations";
     public static DatabaseReference databaseRef;
     public static String url = "";
+    public static int orange;
 
     String TAG = "MainActivity";
 
@@ -83,16 +86,18 @@ public class MainActivity extends AppCompatActivity{
     FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
     databaseRef = FirebaseDatabase.getInstance().getReference();
-    databaseRef.child("ICalendarUrl").get().addOnCompleteListener(task -> {
-      if (task.isSuccessful() && task.getResult().exists()) {
-        MainActivity.this.url = task.getResult().getValue(String.class);
-        Log.d("TAG", "URL récupérée : " + url);
-        // Update et rafraichit les données de la base avec ADE si nécessaire
-        new UpdateFetcher().execute();
-      } else {
-        Log.d("TAG", "La clé ICalendarUrl n'existe pas ou une erreur est survenue.");
-      }
-    });
+    try {
+      Tasks.await(databaseRef.child("ICalendarUrl").get().addOnCompleteListener(task -> {
+        if (task.isSuccessful() && task.getResult().exists()) {
+          MainActivity.this.url = task.getResult().getValue(String.class);
+          Log.d("TAG", "URL récupérée : " + url);
+          // Update et rafraichit les données de la base avec ADE si nécessaire
+          new UpdateFetcher().execute();
+        } else {
+          Log.d("TAG", "La clé ICalendarUrl n'existe pas ou une erreur est survenue.");
+        }
+      }));
+    } catch (Exception e) { }
 
     this.db = findViewById(R.id.doorbutton);
     this.db.setup((ImageView) findViewById(R.id.takeroombubble),
@@ -139,11 +144,21 @@ public class MainActivity extends AppCompatActivity{
 
     // Read data from Firebase Database
     databaseRef.child(floors).addValueEventListener(new ValueEventListener() {
-      @Override
-      public void onDataChange(DataSnapshot dataSnapshot) {
-        //txt.setText(dataSnapshot.getValue().toString());
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+          //txt.setText(dataSnapshot.getValue().toString());
+          for (DataSnapshot etageSnapshot : dataSnapshot.getChildren()) {
+            // Parcourir les réservations sous chaque étage
+            for (DataSnapshot salleSnapshot : etageSnapshot.getChildren()) {
+              // Récupérer la clé (id de la réservation)
+              String salle = salleSnapshot.getKey();int state = salleSnapshot.getValue(Integer.class);
+              Status status = Status.values()[state];
 
-      }
+              Salle salle1 = CalendarFetcher.rooms.getSalle(salle);
+              if(salle1 != null) salle1.setState(status);
+            }
+          }
+        }
 
       @Override
       public void onCancelled(DatabaseError databaseError) {
@@ -151,7 +166,6 @@ public class MainActivity extends AppCompatActivity{
         Log.w(TAG, "onCancelled", databaseError.toException());
       }
     });
-
 
     //Flo boutton etage
     backgroundImage = findViewById(R.id.backgroundImage);
@@ -208,6 +222,10 @@ public class MainActivity extends AppCompatActivity{
     // Flo images svg zoom
     backgroundImage = findViewById(R.id.backgroundImage);
     backgroundImage.setImageResource(R.drawable.school_map1);
+
+    CalendarFetcher.rooms.setSalle(new Salle("1001", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1001)));
+    CalendarFetcher.rooms.setSalle(new Salle("1003", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1003)));
+    CalendarFetcher.rooms.setSalle(new Salle("1007", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1007)));
 
     CalendarFetcher.rooms.setSalle(new Salle("1101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1101)));
     CalendarFetcher.rooms.setSalle(new Salle("1103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1103)));
@@ -332,6 +350,8 @@ public class MainActivity extends AppCompatActivity{
     dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
     Log.d(TAG, "Date actuelle : " + dateFormat.format(new Date()));
   }
+
+  InvisibleButton invisible_button = findViewById(R.id.invisibleButton);
 
   private void verifyClick(MotionEvent event) {
     boolean info = (infoImage.getVisibility() == View.VISIBLE);
