@@ -79,6 +79,7 @@ public class CalendarFetcher {
                                 format.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
                                 String str = format.format(end);
                                 room.setEnd(str);
+
                             }
                         }
                     }

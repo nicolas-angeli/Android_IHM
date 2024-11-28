@@ -20,6 +20,7 @@ public class Salle {
     public void show() {
      // Code pour afficher la salle sur l'écran
         this.button.setVisibility(View.VISIBLE);
+        this.button.setBackgroundColor(0xFFFFFF);
     }
 
     public void hide() {
@@ -50,6 +51,11 @@ public class Salle {
 
     public void setState(Status state) {
         this.state = state;
+        if(state == Status.CLASS){
+            this.button.setBackgroundColor(0xFF0000);
+        } else {
+            this.button.setBackgroundColor(0xFFFFFF);
+        }
     }
 
     public int getEtage(){
