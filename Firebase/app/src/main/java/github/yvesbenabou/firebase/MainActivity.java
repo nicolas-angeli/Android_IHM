@@ -29,7 +29,7 @@ import android.widget.Button;
 import java.util.Calendar;
 import java.util.Collection;
 
-//Nico horloge
+//Nico horlogexis
 import android.app.TimePickerDialog;
 import android.widget.TimePicker;
 
@@ -107,7 +107,12 @@ public class MainActivity extends AppCompatActivity{
                 // On Click
                 // Write data to Firebase Database
                 MainActivity.this.db.show();
-                CalendarFetcher.hide_1();
+                CalendarFetcher.hide_1("0");
+                CalendarFetcher.hide_1("1");
+                CalendarFetcher.hide_1("2");
+                CalendarFetcher.hide_1("3");
+                CalendarFetcher.hide_1("4");
+
             }
         });
 
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity{
                 crb.take_room();
                 MainActivity.databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
                 crb.hide();
-                CalendarFetcher.show_1();
+                CalendarFetcher.show_1("1");
             }
         });
 
@@ -133,7 +138,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
                 // On Click
                 cb.hide();
-                CalendarFetcher.show_1();
+                CalendarFetcher.show_1("1");
             }
         });
 
@@ -188,61 +193,86 @@ public class MainActivity extends AppCompatActivity{
                         float finalY = event.getY(); // Position finale du toucher
                         if (initialY - finalY > 100) {
                             // Glissement vers le haut : image suivante
-                            currentIndex = (currentIndex + 1) % imageResources.length;
+                            currentIndex = (currentIndex + 4) % 5; //% imageResources.length;
                         } else if (finalY - initialY > 100) {
                             // Glissement vers le bas : image précédente
                             //currentIndex = (currentIndex + 1 + imageResources.length) % imageResources.length;
-                            currentIndex = (currentIndex + 1 ) % 5;
+                            currentIndex = (currentIndex + 1) % 5;
+                        }
+                        switch (currentIndex) {
+                            case 0:
+                                // Actions pour l'index 0
+                                CalendarFetcher.hide_1("1");
+                                CalendarFetcher.hide_1("2");
+                                CalendarFetcher.hide_1("3");
+                                CalendarFetcher.hide_1("4");/*
+                                CalendarFetcher.hide_3();
+                                CalendarFetcher.hide_2();
+                                CalendarFetcher.hide_4();
+                                CalendarFetcher.show_0();*/
+                                CalendarFetcher.show_1("0");
+                                break;
 
-                            switch (currentIndex) {
-                                case 0:
-                                    // Actions pour l'index 0
-                                    CalendarFetcher.hide_1();
-                                    CalendarFetcher.hide_3();
-                                    CalendarFetcher.hide_2();
-                                    CalendarFetcher.hide_4();
-                                    CalendarFetcher.show_0();
-                                    break;
+                            case 1:
+                                // Actions pour l'index 1
+                                /*
+                                CalendarFetcher.hide_0();
+                                CalendarFetcher.hide_2();
+                                CalendarFetcher.hide_3();
+                                CalendarFetcher.hide_4();*/
+                                CalendarFetcher.hide_1("0");
+                                CalendarFetcher.hide_1("2");
+                                CalendarFetcher.hide_1("3");
+                                CalendarFetcher.hide_1("4");
+                                CalendarFetcher.show_1("1");
+                                break;
 
-                                case 1:
-                                    // Actions pour l'index 1
-                                    CalendarFetcher.hide_0();
-                                    CalendarFetcher.hide_2();
-                                    CalendarFetcher.hide_3();
-                                    CalendarFetcher.hide_4();
-                                    CalendarFetcher.show_1();
-                                    break;
+                            case 2:
+                                // Actions pour l'index 2
+                                CalendarFetcher.hide_1("0");
+                                CalendarFetcher.hide_1("1");
+                                CalendarFetcher.hide_1("3");
+                                CalendarFetcher.hide_1("4");
+                                CalendarFetcher.show_1("2");
+                                /*
+                                CalendarFetcher.hide_3();
+                                CalendarFetcher.hide_4();
+                                CalendarFetcher.hide_0();
+                                CalendarFetcher.show_2();*/
+                                break;
 
-                                case 2:
-                                    // Actions pour l'index 2
-                                    CalendarFetcher.hide_1();
-                                    CalendarFetcher.hide_3();
-                                    CalendarFetcher.hide_4();
-                                    CalendarFetcher.hide_0();
-                                    CalendarFetcher.show_2();
-                                    break;
+                            case 3:
+                                // Actions pour l'index 3
+                                /*
+                                CalendarFetcher.hide_2();
+                                CalendarFetcher.hide_4();
+                                CalendarFetcher.hide_1();
+                                CalendarFetcher.hide_0();
+                                CalendarFetcher.show_3();*/
+                                CalendarFetcher.show_1("3");
+                                CalendarFetcher.hide_1("0");
+                                CalendarFetcher.hide_1("1");
+                                CalendarFetcher.hide_1("2");
+                                CalendarFetcher.hide_1("4");
+                                break;
 
-                                case 3:
-                                    // Actions pour l'index 3
-                                    CalendarFetcher.hide_2();
-                                    CalendarFetcher.hide_4();
-                                    CalendarFetcher.hide_1();
-                                    CalendarFetcher.hide_0();
-                                    CalendarFetcher.show_3();
-                                    break;
+                            case 4:
+                                // Actions pour l'index 4
+                                /*
+                                CalendarFetcher.hide_3();
+                                CalendarFetcher.hide_1();
+                                CalendarFetcher.hide_2();
+                                CalendarFetcher.hide_0();
+                                CalendarFetcher.show_4();*/
+                                CalendarFetcher.show_1("4");
+                                CalendarFetcher.hide_1("0");
+                                CalendarFetcher.hide_1("1");
+                                CalendarFetcher.hide_1("2");
+                                CalendarFetcher.hide_1("3");
+                                break;
 
-                                case 4:
-                                    // Actions pour l'index 4
-                                    CalendarFetcher.hide_3();
-                                    CalendarFetcher.hide_1();
-                                    CalendarFetcher.hide_2();
-                                    CalendarFetcher.hide_0();
-                                    CalendarFetcher.show_4();
-                                    break;
-
-                                default:
-                                    break;
-                            }
+                            default:
+                                break;
                         }
                         // Mettre à jour l'image et le texte du bouton
                         //backgroundImage.setImageResource(imageResources[currentIndex]);
@@ -263,7 +293,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 // Afficher l'image
                 infoImage.setVisibility(View.VISIBLE);
-                CalendarFetcher.hide_1();
+                CalendarFetcher.hide_1("1");
             }
         });
 
@@ -271,6 +301,12 @@ public class MainActivity extends AppCompatActivity{
         // Etage 1
         backgroundImage = findViewById(R.id.backgroundImage);
         backgroundImage.setImageResource(R.drawable.school_map1);
+
+//        for (Salle s : R.id.) {
+//            String id = "s" + s.getNum();
+//            CalendarFetcher.rooms.setSalle(new Salle(s.getNum(), github.yvesbenabou.firebase.Status.FREE, " ", findViewById(Integer.parseInt(id))));
+//
+//        }
 
         CalendarFetcher.rooms.setSalle(new Salle("1101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1101)));
         CalendarFetcher.rooms.setSalle(new Salle("1103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1103)));
@@ -408,7 +444,6 @@ public class MainActivity extends AppCompatActivity{
         //CalendarFetcher.rooms.setSalle(new Salle("5005", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5005)));
         //CalendarFetcher.rooms.setSalle(new Salle("5007", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5007)));
 
-
         ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
         selectedTimeTextView = findViewById(R.id.selected_time_textview);
 
@@ -532,7 +567,7 @@ public class MainActivity extends AppCompatActivity{
                 if (touchX < imageLeft || touchX > imageRight ||
                         touchY < imageTop || touchY > imageBottom) {
                     infoImage.setVisibility(View.GONE);
-                    if(takeroombubble.getVisibility() == View.GONE) CalendarFetcher.show_1();
+                    if(takeroombubble.getVisibility() == View.GONE) CalendarFetcher.show_1("1");
                 }
 
                 takeroombubble.getLocationInWindow(infoCoords);
@@ -545,7 +580,7 @@ public class MainActivity extends AppCompatActivity{
                 if (touchX < imageLeft || touchX > imageRight ||
                         touchY < imageTop || touchY > imageBottom) {
                     cb.hide();
-                    CalendarFetcher.show_1();
+                    CalendarFetcher.show_1("1");
                 }
             }
         }

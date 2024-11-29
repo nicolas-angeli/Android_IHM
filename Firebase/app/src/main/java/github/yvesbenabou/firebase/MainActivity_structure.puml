@@ -95,7 +95,30 @@ subgraph cluster_366045671 {
 	fillcolor="#d8d8d8"
 	style=filled
    
-   CancelButton1185936551[
+   CalendarFetcher1185936551[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CalendarFetcher</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- checkNumeroSalleEtSetRooms(location: String, end: Date)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide_0()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide_1()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide_2()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide_3()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide_4()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show_0()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show_1()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show_2()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show_3()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show_4()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateRoomStates()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CancelButton1185936551[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(C)CancelButton</TD></TR>
 <HR/>
@@ -150,6 +173,21 @@ DoorButton1185936551[
 	fillcolor="#FFFFFF"
 ];
 
+Liste_Salles365166717[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Liste_Salles</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   List: HashMap&lt;String, Salle&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ containsSalle(numSalle: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getSalle(num: String): Salle</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
 MainActivity1185936551[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(C)MainActivity</TD></TR>
@@ -172,7 +210,6 @@ MainActivity1185936551[
 <TR><TD ALIGN="LEFT" >+ ADE_refresh()</TD></TR>
 <TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
 <TR><TD ALIGN="LEFT" >- showTimePickerDialog()</TD></TR>
-<TR><TD ALIGN="LEFT" >- updateMap()</TD></TR>
 <TR><TD ALIGN="LEFT" >- verifyClick(event: MotionEvent)</TD></TR>
 </TABLE>>
 	style=filled
@@ -184,6 +221,24 @@ MainActivity1185936551[
 ModifyButton1185936551[
 	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
 <TR><TD ALIGN="LEFT" >(C)ModifyButton</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Salle1185936551[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Salle</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   button: Button [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   end: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   num: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   state: Status [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ hide()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show()</TD></TR>
 </TABLE>>
 	style=filled
 	margin=0
@@ -204,10 +259,13 @@ DoorButton1185936551 -> ConfirmRoomButton1185936551[label="crb
 [0..1]"];
 DoorButton1185936551 -> ModifyButton1185936551[label="modifyButton
 [0..1]"];
+Liste_Salles365166717 -> Salle1185936551[label="List
+[0..*]"];
 MainActivity1185936551 -> CancelButton1185936551[label="cb
 [0..1]"];
 MainActivity1185936551 -> DoorButton1185936551[label="db
 [0..1]"];
+MainActivity1185936551 -> Liste_Salles365166717[label="onCreate() -> getSalle()"];
     
 }
 @enduml

@@ -96,7 +96,12 @@ public class CalendarFetcher {
         }
     }
 
-    public static void show_1() {
+    public static void show_1(String etage) {
+
+        for (Salle s : CalendarFetcher.rooms.getList()) {
+            if (s.getEtage().equals(etage)) s.show();
+        }
+/*
         CalendarFetcher.rooms.getSalle("1101").show();
         CalendarFetcher.rooms.getSalle("1103").show();
         CalendarFetcher.rooms.getSalle("1105").show();
@@ -135,7 +140,7 @@ public class CalendarFetcher {
         CalendarFetcher.rooms.getSalle("0163").show();
         CalendarFetcher.rooms.getSalle("0164").show();
         CalendarFetcher.rooms.getSalle("0165").show();
-
+*/
     }
 
     public static void show_2() {
@@ -241,6 +246,8 @@ public class CalendarFetcher {
     //    CalendarFetcher.rooms.getSalle("3009").show();
 
         CalendarFetcher.rooms.getSalle("4003").show();
+        CalendarFetcher.rooms.getSalle("4007").show();
+
     //    CalendarFetcher.rooms.getSalle("4009").show();
 
 //        CalendarFetcher.rooms.getSalle("5001").show();
@@ -250,7 +257,10 @@ public class CalendarFetcher {
     }
 
 
-    public static void hide_1() {
+    public static void hide_1(String etage) {
+
+        for (Salle s : CalendarFetcher.rooms.getList())
+            if (s != null && s.getEtage().equals(etage)) s.hide();/*
         CalendarFetcher.rooms.getSalle("1101").hide();
         CalendarFetcher.rooms.getSalle("1103").hide();
         CalendarFetcher.rooms.getSalle("1105").hide();
@@ -288,6 +298,7 @@ public class CalendarFetcher {
         CalendarFetcher.rooms.getSalle("0163").hide();
         CalendarFetcher.rooms.getSalle("0164").hide();
         CalendarFetcher.rooms.getSalle("0165").hide();
+        */
     }
 
     public static void hide_2() {
@@ -397,5 +408,7 @@ public class CalendarFetcher {
 //        CalendarFetcher.rooms.getSalle("5003").hide();
 //        CalendarFetcher.rooms.getSalle("5005").hide();
      //   CalendarFetcher.rooms.getSalle("5007").hide();
+
+
     }
 }

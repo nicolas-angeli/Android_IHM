@@ -11,6 +11,7 @@ public class Salle {
     private Status state; // État de la salle
     private String end;
     private Button button;    // Position de la salle, par exemple (x, y)
+    private String etage;
 
     // Constructeur
     public Salle(String num, Status state, String end, Button button) {
@@ -18,6 +19,7 @@ public class Salle {
         this.state = state;
         this.button = button;;
         this.end = end;
+        this.etage = String.valueOf(num.charAt(1));
     }
 
     public void show() {
@@ -62,14 +64,23 @@ public class Salle {
             }
         } else if (state == Status.RESERVED){
             //this.button.setBackgroundColor(Color.parseColor("#FFFF00"));
-            this.button.setBackgroundColor(Color.YELLOW);
+            try {
+                //this.button.setBackgroundColor(Color.parseColor("#FF0000"));
+                this.button.setBackgroundColor(Color.YELLOW);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         else {
-            this.button.setBackgroundColor(ConfirmRoomButton.green);;
-            //this.button.setBackgroundColor(Color.GREEN);
+            try {
+                //this.button.setBackgroundColor(Color.parseColor("#FF0000"));
+                this.button.setBackgroundColor(ConfirmRoomButton.green);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-    public int getEtage(){
-        return ((int)num.charAt(1));
+    public String getEtage(){
+        return this.etage;
     }
 }

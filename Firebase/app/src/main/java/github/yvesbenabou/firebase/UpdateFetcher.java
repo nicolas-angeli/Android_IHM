@@ -115,9 +115,18 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                                     MainActivity.databaseRef.child("ADETime").get().addOnCompleteListener(task -> {
                                         if (task.isSuccessful() && task.getResult().exists()) {
                                             String ADE_time = task.getResult().getValue(String.class);
-
-                                            int update_hour = Integer.parseInt(ADE_time.substring(0, 2));
-                                            int update_minute = Integer.parseInt(ADE_time.substring(3, 5));
+                                            int update_hour;
+                                            int update_minute;
+                                            //assert ADE_time != null;
+                                            int l = ADE_time.length();
+                                            if (l >= 5) {
+                                                update_hour = Integer.parseInt(ADE_time.substring(0, 2));
+                                                update_minute = Integer.parseInt(ADE_time.substring(3, 5));
+                                            }
+                                            else{
+                                                update_hour = Integer.parseInt(ADE_time.substring(0, 1));
+                                                update_minute = Integer.parseInt(ADE_time.substring(2, 4));
+                                            }
 
                                             UpdateFetcher.b_ADETime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
                                         } else {
@@ -230,8 +239,14 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
             if (UpdateFetcher.b_ADETime || !UpdateFetcher.b_ADEDate) { //raffraichir la base avec une mise à jour d'ADE
                 MainActivity.ADE_refresh();
                 ADEDate.setValue(date);
-                if(minute >= 30) ADETime.setValue(hour + ":30");
-                else ADETime.setValue(hour + ":00");
+                String zero;
+                if (hour< 10) {
+                    zero = "0";
+                } else
+                    zero = "";
+
+                if(minute >= 30) ADETime.setValue(zero + hour + ":30");
+                else ADETime.setValue(zero + hour + ":00");
             }
 
             try {
