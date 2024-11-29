@@ -309,11 +309,32 @@ public class MainActivity extends AppCompatActivity{
         });
       }
 
+<<<<<<< HEAD
       @Override
       public void afterTextChanged(Editable s) {
         // Rien à faire ici
       }
     });
+=======
+        this.db = findViewById(R.id.doorbutton);
+        this.db.setup((ImageView) findViewById(R.id.takeroombubble),
+                findViewById(R.id.confirmroombutton),
+                findViewById(R.id.cancelbutton),
+                findViewById(R.id.modifybutton),
+                findViewById(R.id.selected_time_textview),
+                findViewById(R.id.salle_input));
+        this.db.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // On Click
+                // Write data to Firebase Database
+                MainActivity.this.db.show();
+//                CalendarFetcher.hide_1("0");
+//                CalendarFetcher.hide_1("1");
+//                CalendarFetcher.hide_1("2");
+//                CalendarFetcher.hide_1("3");
+//                CalendarFetcher.hide_1("4");
+>>>>>>> e7458fc (CA FONCTIONNE,)
 
     ImageView backgroundImage = findViewById(R.id.backgroundImage);
     RelativeLayout background = findViewById(R.id.relativeLayout);
@@ -412,8 +433,269 @@ MainActivity.this,
 
     HashMap<String, Salle> List;
 
+<<<<<<< HEAD
     public Liste_Salles() {
       List = new HashMap<>();
+=======
+        //Flo boutton info
+        Button helpButton = findViewById(R.id.helpButton);
+        infoImage = findViewById(R.id.infoImage);
+
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Afficher l'image
+                infoImage.setVisibility(View.VISIBLE);
+                //CalendarFetcher.hide_1("1");
+            }
+        });
+
+        // Rooms par etage
+        // Etage 1
+        backgroundImage = findViewById(R.id.backgroundImage);
+        backgroundImage.setImageResource(R.drawable.school_map1);
+
+//        for (Salle s : R.id.) {
+//            String id = "s" + s.getNum();
+//            CalendarFetcher.rooms.setSalle(new Salle(s.getNum(), github.yvesbenabou.firebase.Status.FREE, " ", findViewById(Integer.parseInt(id))));
+//
+//        }
+
+        CalendarFetcher.rooms.setSalle(new Salle("1101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1101)));
+        CalendarFetcher.rooms.setSalle(new Salle("1103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1103)));
+        CalendarFetcher.rooms.setSalle(new Salle("1105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1105)));
+        CalendarFetcher.rooms.setSalle(new Salle("1107", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1107)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("2101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2101)));
+        CalendarFetcher.rooms.setSalle(new Salle("2103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2103)));
+        CalendarFetcher.rooms.setSalle(new Salle("2105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2105)));
+        CalendarFetcher.rooms.setSalle(new Salle("2107", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2107)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("3101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3101)));
+        CalendarFetcher.rooms.setSalle(new Salle("3103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3103)));
+        CalendarFetcher.rooms.setSalle(new Salle("3105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3105)));
+        CalendarFetcher.rooms.setSalle(new Salle("3107", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3107)));
+        CalendarFetcher.rooms.setSalle(new Salle("3109", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3109)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("4105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4105)));
+        CalendarFetcher.rooms.setSalle(new Salle("4109", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4109)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("5101", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5101)));
+        CalendarFetcher.rooms.setSalle(new Salle("5103", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5103)));
+        CalendarFetcher.rooms.setSalle(new Salle("5105", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5105)));
+        CalendarFetcher.rooms.setSalle(new Salle("5107", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5107)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("0112", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0112)));
+        CalendarFetcher.rooms.setSalle(new Salle("0110", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0110)));
+        CalendarFetcher.rooms.setSalle(new Salle("0113", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0113)));
+        CalendarFetcher.rooms.setSalle(new Salle("0114", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0114)));
+        CalendarFetcher.rooms.setSalle(new Salle("0115", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0115)));
+        CalendarFetcher.rooms.setSalle(new Salle("0160", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0160)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("0162", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0162)));
+        CalendarFetcher.rooms.setSalle(new Salle("0163", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0163)));
+        CalendarFetcher.rooms.setSalle(new Salle("0164", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0164)));
+        CalendarFetcher.rooms.setSalle(new Salle("0165", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0165)));
+
+        // Etage 2
+        CalendarFetcher.rooms.setSalle(new Salle("1201", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1201)));
+        CalendarFetcher.rooms.setSalle(new Salle("1203", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1203)));
+        CalendarFetcher.rooms.setSalle(new Salle("1205", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1205)));
+        CalendarFetcher.rooms.setSalle(new Salle("1207", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1207)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("2201", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2201)));
+        CalendarFetcher.rooms.setSalle(new Salle("2203", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2203)));
+        CalendarFetcher.rooms.setSalle(new Salle("2205", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2205)));
+        CalendarFetcher.rooms.setSalle(new Salle("2207", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2207)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("3201", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3201)));
+        CalendarFetcher.rooms.setSalle(new Salle("3203", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3203)));
+        CalendarFetcher.rooms.setSalle(new Salle("3205", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3205)));
+        CalendarFetcher.rooms.setSalle(new Salle("3207", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3207)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3209", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3209)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("4201", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4201)));
+        //CalendarFetcher.rooms.setSalle(new Salle("4209", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4209)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("5201", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5201)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5203", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5203)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5205", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5205)));
+        CalendarFetcher.rooms.setSalle(new Salle("5207", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5207)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("0210", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0210)));
+        CalendarFetcher.rooms.setSalle(new Salle("0260", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s0260)));
+
+        // Etage 3
+        CalendarFetcher.rooms.setSalle(new Salle("1301", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1301)));
+        //CalendarFetcher.rooms.setSalle(new Salle("1303", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1303)));
+        CalendarFetcher.rooms.setSalle(new Salle("1305", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1305)));
+        CalendarFetcher.rooms.setSalle(new Salle("1307", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1307)));
+
+        //CalendarFetcher.rooms.setSalle(new Salle("2301", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2301)));
+        //CalendarFetcher.rooms.setSalle(new Salle("2303", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2303)));
+        CalendarFetcher.rooms.setSalle(new Salle("2305", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2305)));
+        //CalendarFetcher.rooms.setSalle(new Salle("2307", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2307)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("3301", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3301)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3303", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3303)));
+        CalendarFetcher.rooms.setSalle(new Salle("3305", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3305)));
+        CalendarFetcher.rooms.setSalle(new Salle("3307", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3307)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3309", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3309)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("4305", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4305)));
+        //CalendarFetcher.rooms.setSalle(new Salle("4309", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4309)));
+        CalendarFetcher.rooms.setSalle(new Salle("5301", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5301)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5303", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5303)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5305", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5305)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5307", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5307)));
+
+        // Etage 4
+        CalendarFetcher.rooms.setSalle(new Salle("1401", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1401)));
+        CalendarFetcher.rooms.setSalle(new Salle("1403", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1403)));
+        CalendarFetcher.rooms.setSalle(new Salle("1405", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1405)));
+        CalendarFetcher.rooms.setSalle(new Salle("1407", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1407)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("2401", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2401)));
+        //CalendarFetcher.rooms.setSalle(new Salle("2403", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2403)));
+        //CalendarFetcher.rooms.setSalle(new Salle("2405", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2405)));
+        //CalendarFetcher.rooms.setSalle(new Salle("2407", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2407)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("3401", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3401)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3403", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3403)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3405", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3405)));
+        CalendarFetcher.rooms.setSalle(new Salle("3407", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3407)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3409", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3409)));
+        CalendarFetcher.rooms.setSalle(new Salle("4405", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4405)));
+        CalendarFetcher.rooms.setSalle(new Salle("4401", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4401)));
+        CalendarFetcher.rooms.setSalle(new Salle("5401", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5401)));
+        CalendarFetcher.rooms.setSalle(new Salle("5403", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5403)));
+        CalendarFetcher.rooms.setSalle(new Salle("5405", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5405)));
+        CalendarFetcher.rooms.setSalle(new Salle("5407", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5407)));
+
+        // Etage 0
+        CalendarFetcher.rooms.setSalle(new Salle("1001", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1001)));
+        CalendarFetcher.rooms.setSalle(new Salle("1003", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1003)));
+        //CalendarFetcher.rooms.setSalle(new Salle("1005", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1005)));
+        CalendarFetcher.rooms.setSalle(new Salle("1007", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s1007)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("2001", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2001)));
+        //CalendarFetcher.rooms.setSalle(new Salle("2003", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2003)));
+        //CalendarFetcher.rooms.setSalle(new Salle("2005", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2005)));
+        //CalendarFetcher.rooms.setSalle(new Salle("2007", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s2007)));
+
+        CalendarFetcher.rooms.setSalle(new Salle("3001", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3001)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3003", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3003)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3005", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3005)));
+        CalendarFetcher.rooms.setSalle(new Salle("3007", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3007)));
+        //CalendarFetcher.rooms.setSalle(new Salle("3009", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s3009)));
+        //CalendarFetcher.rooms.setSalle(new Salle("4005", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4005)));
+        CalendarFetcher.rooms.setSalle(new Salle("4007", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4007)));
+        CalendarFetcher.rooms.setSalle(new Salle("4003", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4003)));
+        //CalendarFetcher.rooms.setSalle(new Salle("4009", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s4009)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5001", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5001)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5003", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5003)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5005", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5005)));
+        //CalendarFetcher.rooms.setSalle(new Salle("5007", github.yvesbenabou.firebase.Status.FREE, " ", findViewById(R.id.s5007)));
+
+        ModifyButton modifyTimeButton = findViewById(R.id.modifybutton);
+        selectedTimeTextView = findViewById(R.id.selected_time_textview);
+
+        // Définir un listener pour ouvrir le TimePickerDialog
+        modifyTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+            }
+        });
+
+        EditText salleInput = findViewById(R.id.salle_input);
+
+        salleInput.addTextChangedListener(new TextWatcher() {
+            private boolean isUpdating = false;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Rien à faire ici
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) return; // Empêche les boucles infinies
+
+                // Supprime les espaces et vérifie si la chaîne est valide
+                String salle = s.toString().trim().replace(" ", "");
+
+                if (salle.isEmpty()) {
+                    Log.d("Firebase", "Chaîne vide, aucune vérification effectuée.");
+                    return; // Pas de vérification si l'entrée est vide
+                }
+
+                // Vérifie que la chaîne est suffisamment longue
+                if (salle.length() < 3) {
+                    Log.d("Firebase", "Nom de salle trop court.");
+                    return; // La salle doit être au moins de 4 caractères (comme 1003)
+                } else if (salle.length() == 3) salle = "0" + salle;
+
+                // Extraire l'étage à partir du premier caractère
+                String etage = String.valueOf(salle.charAt(1));
+                String salleComplete = salle;
+
+                // Référence Firebase
+                DatabaseReference salleRef = databaseRef.child("étages").child(etage).child(salleComplete);
+
+                // Ajout du Listener
+                salleRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // Salle trouvée
+                            Log.d("Firebase", "Salle " + salleComplete + " trouvée dans l'étage " + etage);
+                            MainActivity.this.db.salleFound(); // Appel d'une méthode personnalisée
+                            crb.setRoom(salleComplete);
+                        } else {
+                            // Salle non trouvée
+                            Log.d("Firebase", "Salle " + salleComplete + " introuvable dans l'étage " + etage);
+                            db.notFound(); // Appel d'une méthode personnalisée
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("Firebase", "Erreur : " + databaseError.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Rien à faire ici
+            }
+        });
+
+        ImageView backgroundImage = findViewById(R.id.backgroundImage);
+        RelativeLayout background = findViewById(R.id.relativeLayout);
+        takeroombubble = findViewById(R.id.takeroombubble);
+
+        backgroundImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                verifyClick(event);
+                return true;
+            }
+        });
+
+        background.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                verifyClick(event);
+                return true;
+            }
+        });
+
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+        Log.d(TAG, "Date actuelle : " + dateFormat.format(new Date()));
+>>>>>>> e7458fc (CA FONCTIONNE,)
     }
 
     public Collection<Salle> getList() {
