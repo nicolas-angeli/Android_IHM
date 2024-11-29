@@ -107,11 +107,11 @@ public class MainActivity extends AppCompatActivity{
                 // On Click
                 // Write data to Firebase Database
                 MainActivity.this.db.show();
-                CalendarFetcher.hide_1("0");
-                CalendarFetcher.hide_1("1");
-                CalendarFetcher.hide_1("2");
-                CalendarFetcher.hide_1("3");
-                CalendarFetcher.hide_1("4");
+//                CalendarFetcher.hide_1("0");
+//                CalendarFetcher.hide_1("1");
+//                CalendarFetcher.hide_1("2");
+//                CalendarFetcher.hide_1("3");
+//                CalendarFetcher.hide_1("4");
 
             }
         });
@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 // Afficher l'image
                 infoImage.setVisibility(View.VISIBLE);
-                CalendarFetcher.hide_1("1");
+                //CalendarFetcher.hide_1("1");
             }
         });
 
