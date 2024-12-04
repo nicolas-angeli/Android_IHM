@@ -160,7 +160,7 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                                             int update_hour = Integer.parseInt(Liberation_time.substring(0, 2));
                                             int update_minute = Integer.parseInt(Liberation_time.substring(3, 5));
 
-                                            UpdateFetcher.b_LiberationTime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
+                                            UpdateFetcher.b_LiberationTime = (hour > update_hour || (hour == update_hour && minute > update_minute));
                                         } else {
                                             Log.d("TAG", "Une erreur est survenue à l'acquisition de la date de libération des créneaux.");
                                         }
