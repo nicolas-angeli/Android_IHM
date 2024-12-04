@@ -1,5 +1,7 @@
 package github.yvesbenabou.firebase;
 
+import static github.yvesbenabou.firebase.MainActivity.ADE_refresh;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -29,6 +31,7 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
     // Date cible pour filtrer les événements
     private SimpleDateFormat dateFormat;
     private SimpleDateFormat hourFormat;
+    private int first = 0;
 
     public UpdateFetcher() {
         this.dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -50,6 +53,9 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
 
             int hour = Integer.parseInt(time.substring(0, 2));
             int minute = Integer.parseInt(time.substring(3, 5));
+
+            if (first == 0) ADE_refresh();
+            first = 1;
 
             //On scrute la base de données afin de déterminer si elle a été mise à jour aujourd'hui
 
@@ -237,7 +243,7 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
             }
 
             if (UpdateFetcher.b_ADETime || !UpdateFetcher.b_ADEDate) { //raffraichir la base avec une mise à jour d'ADE
-                MainActivity.ADE_refresh();
+                ADE_refresh();
                 ADEDate.setValue(date);
                 String zero;
                 if (hour< 10) {

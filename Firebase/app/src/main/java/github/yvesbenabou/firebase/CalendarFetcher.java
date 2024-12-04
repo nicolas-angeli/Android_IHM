@@ -26,8 +26,12 @@ public class CalendarFetcher {
     private static void checkNumeroSalleEtSetRooms(String location, Date end) {
         location = location.replaceAll("[^0-9]", "");
 
-        if (!rooms.containsSalle(location)) {
-            rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, " ", null));//libre par défaut
+        if (!rooms.containsSalle(location) && location.length() >= 4) {
+            try {
+                rooms.setSalle(new Salle(location, github.yvesbenabou.firebase.Status.FREE, " ", null));//libre par défaut
+            } catch (Exception e) {
+                Log.e(TAG, "ERREUR SALLE: " + location, e);
+            }
         }
     }
 
@@ -60,7 +64,7 @@ public class CalendarFetcher {
                     if (location.indexOf(',') > -1){//Si plusieur salles dans un seul cours
                         String[] splitedLocation = location.split(",");
                         for (String newLocation : splitedLocation){
-                            checkNumeroSalleEtSetRooms(location, end);
+                            checkNumeroSalleEtSetRooms(newLocation, end);
                         }
                     }
                     else checkNumeroSalleEtSetRooms(location, end);
@@ -99,7 +103,11 @@ public class CalendarFetcher {
     public static void show_1(String etage) {
 
         for (Salle s : CalendarFetcher.rooms.getList()) {
-            if (s.getEtage().equals(etage)) s.show();
+            try {
+                if (s.getEtage().equals(etage)) s.show();
+            } catch (Exception e) {
+                Log.d(TAG, "show : Salle " + s.getNum() + " pas trouvée");
+            }
         }
 /*
         CalendarFetcher.rooms.getSalle("1101").show();
@@ -260,7 +268,11 @@ public class CalendarFetcher {
     public static void hide_1(String etage) {
 
         for (Salle s : CalendarFetcher.rooms.getList())
-            if (s != null && s.getEtage().equals(etage)) s.hide();/*
+            try {
+                if (s != null && s.getEtage().equals(etage)) s.hide();
+            } catch (Exception e) {
+                Log.d(TAG, "hide : Salle " + s.getNum() + " pas trouvée");
+            }/*
         CalendarFetcher.rooms.getSalle("1101").hide();
         CalendarFetcher.rooms.getSalle("1103").hide();
         CalendarFetcher.rooms.getSalle("1105").hide();
