@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity{
                 crb.take_room();
                 MainActivity.databaseRef.child(reservation).child(floors).child(String.valueOf(room.charAt(1))).child(room).setValue(selectedTimeTextView.getText());
                 crb.hide();
-                CalendarFetcher.show_1("1");
+                //CalendarFetcher.show_1("1");
             }
         });
 
@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        databaseRef.child(floors).child("trigger").setValue(1);
+        databaseRef.child(floors).child("trigger").setValue(0);
 
         //Flo boutton etage
         backgroundImage = findViewById(R.id.backgroundImage);

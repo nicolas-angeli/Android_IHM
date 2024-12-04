@@ -1,6 +1,7 @@
 package github.yvesbenabou.firebase;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.Button;
 import android.view.View;
 
@@ -12,6 +13,7 @@ public class Salle {
     private String end;
     private Button button;    // Position de la salle, par exemple (x, y)
     private String etage;
+    private static final String TAG = "Salle";
 
     // Constructeur
     public Salle(String num, Status state, String end, Button button) {
@@ -24,12 +26,14 @@ public class Salle {
 
     public void show() {
         // Code pour afficher la salle sur l'écran
-        this.button.setVisibility(View.VISIBLE);
+        if(this.button != null) this.button.setVisibility(View.VISIBLE);//Toutes les salles ne sont pas implémentées (Nous ne nous occupons pas de l'epi 6)
+        else Log.e(TAG, "Pas de bouton pour la salle : " + this.num);
     }
 
     public void hide() {
         // Code pour masquer la salle de l'écran
-        this.button.setVisibility(View.GONE);
+        if(this.button != null) this.button.setVisibility(View.GONE); //Toutes les salles ne sont pas implémentées (Nous ne nous occupons pas de l'epi 6 ou des salles XX5X)
+        else Log.e(TAG, "Pas de bouton pour la salle : " + this.num);
     }
 
     public String getEnd() {
@@ -43,10 +47,6 @@ public class Salle {
     // Getters et Setters
     public String getNum() {
         return this.num;
-    }
-
-    public void setNum(String num) {
-        this.num = num;
     }
 
     public Status getState() {

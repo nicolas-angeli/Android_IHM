@@ -3,12 +3,14 @@ package github.yvesbenabou.firebase;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.DatabaseError;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.Vector;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
@@ -20,6 +22,7 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
     private static boolean b_ADETime = false;
     private static boolean b_LiberationDate = false;
     private static boolean b_LiberationTime = false;
+    public static Date date;
 
     private final DatabaseReference ADEDate = MainActivity.databaseRef.child("ADEDate");
     private final DatabaseReference ADETime = MainActivity.databaseRef.child("ADETime");
@@ -45,11 +48,18 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
             UpdateFetcher.b_LiberationDate = false;
             UpdateFetcher.b_LiberationTime = false;
 
+            /*pour tester
             String date = dateFormat.format(new Date());
             String time = hourFormat.format(new Date());
 
             int hour = Integer.parseInt(time.substring(0, 2));
             int minute = Integer.parseInt(time.substring(3, 5));
+            */
+            //test
+            int hour = TestClock.hrs;
+            int minute = 1;
+            UpdateFetcher.date = TestClock.refreshTime();
+            String date = dateFormat.format(UpdateFetcher.date);
 
             //On scrute la base de données afin de déterminer si elle a été mise à jour aujourd'hui
 
@@ -69,7 +79,9 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                                     }
                                 })
                         );
-                    } catch (Exception e) { }
+                    } catch (Exception e) {
+                        Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                    }
                 }
             });
 
@@ -91,7 +103,9 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                                     }
                                 })
                         );
-                    } catch (Exception e) { }
+                    } catch (Exception e) {
+                        Log.d("TAG", "Une erreur est survenue à l'acquisition de la date ADE.");
+                    }
                 }
             });
 
@@ -100,7 +114,9 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
             try {
                 ThreadADEDate.join();
                 ThreadLibDate.join();
-            } catch (InterruptedException e) {  Log.d("TAG", "Can't join threads"); }
+            } catch (InterruptedException e) {
+                Log.d("TAG", "Can't join threads");
+            }
 
             //On scrute les dernières heures de mises à jour
 
@@ -134,7 +150,9 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                                         }
                                     })
                             );
-                        } catch (Exception e) { }
+                        } catch (Exception e) {
+                            Log.d("TAG", "Une erreur est survenue");
+                        }
                     }
                 });
 
@@ -154,13 +172,15 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                                             int update_hour = Integer.parseInt(Liberation_time.substring(0, 2));
                                             int update_minute = Integer.parseInt(Liberation_time.substring(3, 5));
 
-                                            UpdateFetcher.b_LiberationTime = (hour > update_hour && minute > 0 || (hour == update_hour && minute > update_minute + 30));
+                                            UpdateFetcher.b_LiberationTime = (hour > update_hour || (hour == update_hour && minute > update_minute));
                                         } else {
                                             Log.d("TAG", "Une erreur est survenue à l'acquisition de la date de libération des créneaux.");
                                         }
                                     })
                             );
-                        } catch (Exception e) { }
+                        } catch (Exception e) {
+                            Log.d("TAG", "Une erreur est survenue à l'acquisition de la date de libération des créneaux.");
+                        }
                     }
                 });
 
@@ -169,7 +189,9 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                 try {
                     ThreadADETime.join();
                     ThreadLibTime.join();
-                } catch (InterruptedException e) {  Log.d("TAG", "Can't join threads"); }
+                } catch (InterruptedException e) {
+                    Log.d("TAG", "Can't join threads");
+                }
             }
 
             //nos variables sont à jour, on peut faire les mises à jour nécessaires
@@ -182,21 +204,30 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                 try {
                     Tasks.await(reservationsRef.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful() && task.getResult().exists()) {
+                            Vector<Task> vec = new Vector<>();
                             for (DataSnapshot etageSnapshot : task.getResult().getChildren()) {
                                 // Parcourir les réservations sous chaque étage
                                 for (DataSnapshot reservationSnapshot : etageSnapshot.getChildren()) {
                                     // Récupérer la clé (id de la réservation)
                                     String reservationKey = reservationSnapshot.getKey();
 
-                                    salles.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(github.yvesbenabou.firebase.Status.FREE.ordinal());
-                                    reservationsRef.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(" ");
+                                    vec.add(salles.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(github.yvesbenabou.firebase.Status.FREE.ordinal()));
+                                    vec.add(reservationsRef.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(" "));
+
+                                }
+                            }
+                            for(Task tache : vec) {
+                                try { Tasks.await(tache); } catch (Exception e) {
+                                    Log.d(TAG, "Erreur");
                                 }
                             }
                         } else {
                             Log.d("TAG", "Une erreur est survenue à l'acquisition des données.");
                         }
                     }));
-                } catch (Exception e) { }
+                } catch (Exception e) {
+                    Log.d("TAG", "Une erreur est survenue à l'acquisition des données.");
+                }
             }
 
             if (UpdateFetcher.b_LiberationTime) { //vérifier les créneaux
@@ -206,6 +237,7 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                         if (task.isSuccessful() && task.getResult().exists()) {
                             for (DataSnapshot etageSnapshot : task.getResult().getChildren()) {
                                 // Parcourir les réservations sous chaque étage
+                                Vector<Task> vec = new Vector<>();
                                 for (DataSnapshot reservationSnapshot : etageSnapshot.getChildren()) {
                                     // Récupérer la clé (id de la réservation)
                                     String reservationKey = reservationSnapshot.getKey();
@@ -217,10 +249,16 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                                             int minute_deadline = Integer.parseInt(reservationValue.substring(3, 5));
 
                                             if (hour > hour_deadline || (hour == hour_deadline && minute > minute_deadline)) {
-                                                salles.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(github.yvesbenabou.firebase.Status.FREE.ordinal());
-                                                reservationsRef.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(" ");
+                                                try { Tasks.await(salles.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(github.yvesbenabou.firebase.Status.FREE.ordinal()));} catch (Exception e) {
+                                                    Log.d("TAG", "Une erreur est survenue à écrire le statut de la réservation.");
+                                                }
+                                                try { Tasks.await(reservationsRef.child(String.valueOf(reservationKey.charAt(1))).child(reservationKey).setValue(" "));} catch (Exception e) {
+                                                    Log.d("TAG", "Une erreur est survenue à écrire le statut de la réservation.");
+                                                }
                                             }
-                                        } catch (ClassCastException e) {}
+                                        } catch (ClassCastException e) {
+                                            Log.d("TAG", "La valeur de la réservation n'est pas un entier.");
+                                        }
                                     }
                                 }
                             }
@@ -228,30 +266,52 @@ public class UpdateFetcher extends AsyncTask<Void, Void, Void> {
                             Log.d("TAG", "Une erreur est survenue à l'acquisition des données.");
                         }
                     }));
-                } catch (Exception e) { }
+                } catch (Exception e) {
+                    Log.d("TAG", "Une erreur est survenue à l'acquisition des données.");
+                }
             }
 
             if (UpdateFetcher.b_LiberationTime || !UpdateFetcher.b_LiberationDate) { //raffraichir la base avec une mise à jour d'ADE
-                LiberationDate.setValue(date);
-                LiberationTime.setValue(time);
+                try { Tasks.await(LiberationDate.setValue(date));} catch (Exception e) {
+                    Log.d("TAG", "Une erreur est survenue à écrire la date de libération.");
+                }
+                //LiberationTime.setValue(time);
+                if (hour < 10) try { Tasks.await(LiberationTime.setValue("0" + hour + ":01"));} catch (Exception e) {
+                    Log.d("TAG", "Une erreur est survenue à écrire la date de libération.");
+                }
+                else try { Tasks.await(LiberationTime.setValue(hour + ":01"));} catch (Exception e) {
+                    Log.d("TAG", "Une erreur est survenue à écrire la date de libération.");
+                }
             }
 
             if (UpdateFetcher.b_ADETime || !UpdateFetcher.b_ADEDate) { //raffraichir la base avec une mise à jour d'ADE
                 MainActivity.ADE_refresh();
-                ADEDate.setValue(date);
+                try { Tasks.await(ADEDate.setValue(date));} catch (Exception e) {
+                    Log.d("TAG", "Une erreur est survenue à écrire la date d'ADE.");
+                }
                 String zero;
                 if (hour< 10) {
                     zero = "0";
                 } else
-                    zero = "";
+                    zero = "";//3401 3407 2401 2409 5301 5309 4305 3407 2305
 
-                if(minute >= 30) ADETime.setValue(zero + hour + ":30");
-                else ADETime.setValue(zero + hour + ":00");
+                if(minute >= 30){
+                    try { Tasks.await(ADETime.setValue(zero + hour + ":30"));} catch (Exception e) {
+                        Log.d("TAG", "Une erreur est survenue à écrire la date d'ADE.");
+                    }
+                }
+                else {
+                    try { Tasks.await(ADETime.setValue(zero + hour + ":00"));} catch (Exception e) {
+                        Log.d("TAG", "Une erreur est survenue à écrire la date d'ADE.");
+                    }
+                }
             }
 
             try {
                 Thread.sleep(15000);  // Pause de 15 secondes
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }
         return null;

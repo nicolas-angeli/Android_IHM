@@ -440,7 +440,7 @@
         android:layout_marginTop="1012px"
         android:background="#0ECE0E"
         android:elevation="4dp"
-        tools:visibility="visble"/>
+        tools:visibility="visible"/>
 
     <Button
         android:id="@+id/s3203"
