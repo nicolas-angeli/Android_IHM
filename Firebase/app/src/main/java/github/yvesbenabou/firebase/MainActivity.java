@@ -647,7 +647,7 @@ MainActivity.this,
                 salleRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
+                        if (dataSnapshot.exists() && CalendarFetcher.rooms.getSalle(salleComplete).getState() == Status.FREE) {
                             // Salle trouvée
                             Log.d("Firebase", "Salle " + salleComplete + " trouvée dans l'étage " + etage);
                             MainActivity.this.db.salleFound(); // Appel d'une méthode personnalisée

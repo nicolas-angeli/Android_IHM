@@ -96,55 +96,26 @@ public class CalendarFetcher {
         }
     }
 
-    public static void show() {
-        CalendarFetcher.rooms.getSalle("1101").show();
-        CalendarFetcher.rooms.getSalle("1103").show();
-        CalendarFetcher.rooms.getSalle("1105").show();
-        CalendarFetcher.rooms.getSalle("1107").show();
+    public static void show_1(String etage) {
 
-        CalendarFetcher.rooms.getSalle("2101").show();
-        CalendarFetcher.rooms.getSalle("2103").show();
-        CalendarFetcher.rooms.getSalle("2105").show();
-        CalendarFetcher.rooms.getSalle("2107").show();
+        for (Salle s : CalendarFetcher.rooms.getList()) {
+            try {
+                if (s.getEtage().equals(etage)) s.show();
+            } catch (Exception e) {
+                Log.d(TAG, "show : Salle " + s.getNum() + " pas trouvée");
+            }
+        }
 
-        CalendarFetcher.rooms.getSalle("3101").show();
-        CalendarFetcher.rooms.getSalle("3103").show();
-        CalendarFetcher.rooms.getSalle("3105").show();
-        CalendarFetcher.rooms.getSalle("3107").show();
-        CalendarFetcher.rooms.getSalle("3109").show();
-
-        CalendarFetcher.rooms.getSalle("4105").show();
-        CalendarFetcher.rooms.getSalle("4109").show();
-
-        CalendarFetcher.rooms.getSalle("5101").show();
-        CalendarFetcher.rooms.getSalle("5103").show();
-        CalendarFetcher.rooms.getSalle("5105").show();
-        CalendarFetcher.rooms.getSalle("5107").show();
     }
-    
-    public static void hide() {
-        CalendarFetcher.rooms.getSalle("1101").hide();
-        CalendarFetcher.rooms.getSalle("1103").hide();
-        CalendarFetcher.rooms.getSalle("1105").hide();
-        CalendarFetcher.rooms.getSalle("1107").hide();
 
-        CalendarFetcher.rooms.getSalle("2101").hide();
-        CalendarFetcher.rooms.getSalle("2103").hide();
-        CalendarFetcher.rooms.getSalle("2105").hide();
-        CalendarFetcher.rooms.getSalle("2107").hide();
 
-        CalendarFetcher.rooms.getSalle("3101").hide();
-        CalendarFetcher.rooms.getSalle("3103").hide();
-        CalendarFetcher.rooms.getSalle("3105").hide();
-        CalendarFetcher.rooms.getSalle("3107").hide();
-        CalendarFetcher.rooms.getSalle("3109").hide();
+    public static void hide_1(String etage) {
 
-        CalendarFetcher.rooms.getSalle("4105").hide();
-        CalendarFetcher.rooms.getSalle("4109").hide();
-
-        CalendarFetcher.rooms.getSalle("5101").hide();
-        CalendarFetcher.rooms.getSalle("5103").hide();
-        CalendarFetcher.rooms.getSalle("5105").hide();
-        CalendarFetcher.rooms.getSalle("5107").hide();
+        for (Salle s : CalendarFetcher.rooms.getList())
+            try {
+                if (s != null && s.getEtage().equals(etage)) s.hide();
+            } catch (Exception e) {
+                Log.d(TAG, "hide : Salle " + s.getNum() + " pas trouvée");
+            }
     }
 }
