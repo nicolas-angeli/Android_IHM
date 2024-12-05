@@ -346,7 +346,7 @@
     <Button
         android:id="@+id/helpButton"
         android:layout_width="58dp"
-        android:layout_height="58dp"
+        android:layout_height="108dp"
         android:text="?"
         android:textSize="24sp"
         android:layout_alignParentTop="true"
